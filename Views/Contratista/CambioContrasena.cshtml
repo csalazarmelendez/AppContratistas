@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Cambio contraseña";
+    Layout = "~/Views/Shared/_LayoutContratista.cshtml";
+}
+
+<h3>Cambio de contraseña - @ViewBag.Nombre</h3>
+
+
+<div class="container">
+    @if (TempData["mensajeError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["mensajeError"]
+        </div>
+    }
+    @if (TempData["mensaje"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["mensaje"]
+        </div>
+    }
+    <div class="row">
+
+        <form asp-controller="Contratista" asp-action="CambioContrasena" asp-route-contratistaid="@ViewData["Contratista"]" asp-route-cambio=1>
+            <div class="form-group">
+                <label class="control-label">Contraseña actual</label>
+                <input name="actual" type="password" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Contraseña nueva</label>
+                <input id="pass1" name="nueva" type="password" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Confirmar contraseña nueva</label>
+                <input id="pass2" name="confirmar" type="password" class="form-control" onkeyup="verificarPasswords()" />
+            </div>
+
+            <!-- Mensajes de Verificación -->
+            <div id="error" class="alert alert-danger ocultar" style="display: none" role="alert">
+                Las Contraseñas no coinciden, vuelve a intentar...
+            </div>
+            <div id="ok" class="alert alert-success ocultar" style="display: none" role="alert">
+                ¡Las Contraseñas coinciden!
+            </div>
+            @if (TempData["mensajeConfirmar"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @TempData["mensajeConfirmar"]
+                </div>
+            }
+            <!-- Fin Mensajes de Verificación -->
+
+            <div class="form-group">
+                <input type="submit" value="Cambiar contraseña" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function verificarPasswords() {
+        // Ontenemos los valores de los campos de contraseñas
+        pass1 = document.getElementById('pass1');
+        pass2 = document.getElementById('pass2');
+        var error = document.getElementById("error");
+        var ok = document.getElementById("ok");
+        // Verificamos si las constraseñas no coinciden
+        if (pass1.value != pass2.value) {
+
+            // Si las constraseñas no coinciden mostramos un mensaje
+            error.style.display = "block";
+            if (ok.style.display !== "none") {
+                ok.style.display = "none";
+            }
+        } else {
+
+            error.style.display = "none";
+            ok.style.display = "block";
+        }
+
+    }
+</script>

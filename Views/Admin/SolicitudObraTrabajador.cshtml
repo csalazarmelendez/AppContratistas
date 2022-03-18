@@ -1,0 +1,167 @@
+﻿@model IEnumerable<Contratistas.Models.SolicitudObra>
+
+@{
+    ViewData["Title"] = "Lista de solicitudes de Obra";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Gestión de solicitudes de nueva obra asociada a trabajador</h3>
+<br/>
+<div id="container">
+    @if (TempData["mensaje"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["mensaje"]
+        </div>
+    }
+    <!-- Buscar -->
+    <div class="row">
+        <div class="col-sm-12">
+            <form method="post" onchange="myFunctionTrabajador()" asp-controller="Admin" asp-action="BuscarTrabajadorObra" asp-route-adminid="@ViewData["Administrador"]">
+                <label for="buscar">Buscar por trabajador</label>
+                <br />
+                <input list="trabajador" id="trabajadors" name="trabajador" type="text" placeholder="Trabajador" required />
+                <datalist id="trabajador">
+                    @foreach (var t in ViewBag.Trabajadores)
+                    {
+                        <option name="trabajador" value="@t">@t</option>
+                    }
+                </datalist>
+                <input id="ced" name="ced" hidden />
+                <input id="nombre" name="nombre" hidden />
+                <input type="submit" value="Buscar" class="btn btn-primary">
+                <a asp-controller="Admin" asp-action="FiltrarEstadoSolicitud" asp-route-adminid="@ViewData["Administrador"]" asp-route-filtro=0 class="btn btn-primary">Filtrar aprobados</a>
+                <a asp-controller="Admin" asp-action="FiltrarEstadoSolicitud" asp-route-adminid="@ViewData["Administrador"]" asp-route-filtro=1 class="btn btn-primary">Filtrar rechazados</a>
+                <a asp-controller="Admin" asp-action="FiltrarEstadoSolicitud" asp-route-adminid="@ViewData["Administrador"]" asp-route-filtro=2 class="btn btn-primary">Filtrar pendientes</a>
+                <a asp-controller="Admin" asp-action="SolicitudObraTrabajador" asp-route-adminid="@ViewData["Administrador"]" class="btn btn-primary">Quitar filtros</a>
+            </form>
+
+        </div>
+
+        <div class="col-sm-7">
+            <form method="post" onchange="myFunctionContratista()" asp-controller="Admin" asp-action="BuscarContratista" asp-route-adminid="@ViewData["Administrador"]" asp-route-modulo=2>
+                <label for="buscar">Buscar por contratista</label>
+                <br />
+                <input list="contratista" name="contratista" type="text" placeholder="Contratista" required />
+                <datalist id="contratista">
+                    @foreach (var t in ViewBag.Contratistas)
+                    {
+                        <option name="contratista" value="@t.Razon_social">@t.NIT</option>
+                    }
+                </datalist>
+                <input id="nit" name="nit" hidden />
+                <input id="nom" name="nom" hidden />
+                <input type="submit" value="Buscar" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+
+    <br/>
+    <!-- Tabla de solicitudes -->
+
+    <div class="table-responsive">
+        <table id="lista_registros" class="table table-bordered table-hover table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <td>Cédula</td>
+                    <td>Trabajador</td>
+                    <td>Obra actual</td>
+                    <td>Obra nueva</td>
+                    <td>Contratista</td>
+                    <td>Subcontratista</td>
+                    <td>Estado de ingreso del trabajador</td>
+                    <td>Estado de la solicitud</td>
+                    <td>Acción</td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.listaSolicitudes != null && ViewBag.listaSolicitudes.Count > 0)
+                {
+                    @foreach (var solicitud in ViewBag.listaSolicitudes)
+                    {
+                        <tr>
+                            @for (int i = 1; i < 9; i++)
+                            {
+                                <td>@solicitud[i]</td>
+
+                            }
+                            <td>
+                                <a asp-controller="Admin" asp-action="AprobarObra" asp-route-adminid="@ViewData["Administrador"]" asp-route-idsolicitud="@Int32.Parse(solicitud[0])" class="btn btn-success">Aprobar</a>
+                                <a asp-controller="Admin" asp-action="RechazarObra" asp-route-adminid="@ViewData["Administrador"]" asp-route-idsolicitud="@Int32.Parse(solicitud[0])" class="btn btn-danger">Rechazar</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td>No hay solicitudes.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function myFunctionTrabajador() {
+        var getData = document.getElementById("trabajadors").value;
+        if (getData == "") {
+            document.getElementById("cedula").value = "";
+            document.getElementById("ced").value = "";
+            document.getElementById("nombre").value = "";
+            document.getElementById("trabajadors").value = "";
+        }
+        var flag = false;
+        var cedula = "";
+        var nombre = "";
+        for (var i = 0; i < getData.length; i++) {
+            if (getData[i] != ' ') {
+                cedula = cedula + getData[i];
+                flag = true;
+            }
+            else {
+                break;
+            }
+        }
+        if (flag) {
+            for (j = i + 1; j < getData.length; j++) {
+                nombre = nombre + getData[j];
+            }
+        }
+        document.getElementById("cedula").value = cedula;
+        document.getElementById("ced").value = cedula;
+        document.getElementById("nombre").value = nombre;
+        document.getElementById("trabajadors").value = nombre;
+    }
+
+    function myFunctionContratista() {
+
+        var getData = document.getElementById("contratistas").value;
+        if (getData == "") {
+            document.getElementById("nit").value = "";
+            document.getElementById("nom").value = "";
+            document.getElementById("contratistas").value = "";
+        }
+        var flag = false;
+        var nit = "";
+        var nombre = "";
+        for (var i = 0; i < getData.length; i++) {
+            if (getData[i] != ' ') {
+                nit = nit + getData[i];
+                flag = true;
+            }
+            else {
+                break;
+            }
+        }
+        if (flag) {
+            for (j = i + 1; j < getData.length; j++) {
+                nombre = nombre + getData[j];
+            }
+        }
+        document.getElementById("nit").value = nit;
+        document.getElementById("nom").value = nombre;
+        document.getElementById("contratistas").value = nombre;
+    }
+</script>

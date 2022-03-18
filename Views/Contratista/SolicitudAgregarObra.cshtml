@@ -1,0 +1,136 @@
+﻿@model Contratistas.Models.SolicitudObra
+
+@{
+    ViewData["Title"] = "Validacion de datos de trabajadores";
+    Layout = "~/Views/Shared/_LayoutContratista.cshtml";
+}
+
+<h3>Solicitud agregar obra a trabajador - @ViewBag.Nombre</h3>
+
+<br />
+
+<div class="container">
+    <div class="row">
+        @if (TempData["mensaje"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["mensaje"]
+            </div>
+        }
+        @if (TempData["mensajeE"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["mensajeE"]
+            </div>
+        }
+        <div class="col-sm-12">
+            <form asp-controller="Contratista" asp-action="EnviarSolicitud" asp-route-contratistaid="@ViewData["Contratista"]">
+                <label asp-for="IdTrabajador" for="buscar">Buscar trabajador</label>
+                <br />
+                <input asp-for="IdTrabajador" onchange="myFunction()" list="trabajador" id="trabajadors" name="trabajador" type="text" placeholder="Nombre del trabajador" required />
+                <span asp-validation-for="IdTrabajador" class="text-danger"></span>
+                <datalist id="trabajador">
+                    @foreach (var t in ViewBag.Trabajadores)
+                    {
+                        <option name="trabajador" value="@t">@t</option>
+                    }
+                </datalist>
+
+                <input id="cedula" name="cedulas" placeholder="Cedula" disabled />
+                <input id="nombre" name="nombre" hidden />
+                <input id="ced" name="ced" hidden />
+                <br />
+                <br />
+                <input asp-for="ObrId" onchange="myFunctionObra()" list="obra" id="obras" name="obra" type="text" placeholder="Obra" required />
+                <span asp-validation-for="ObrId" class="text-danger"></span>
+                <datalist id="obra">
+                    @foreach (var obra in ViewBag.Obras)
+                    {
+                        <option name="obra" value="@obra">@obra</option>
+                    }
+
+                </datalist>
+                <input id="codigo" name="codigo" placeholder="Código obra" disabled />
+                <input id="obra" name="obra" hidden />
+                <input id="cod" name="cod" hidden />
+                <br />
+                <br />
+                @if (ViewBag.Trabajadores.Count == 0)
+                {
+                    <input id="boton" type="submit" class="btn btn-primary" value="Enviar solicitud" disabled></input>
+                }
+                else
+                {
+                    <input id="boton" type="submit" class="btn btn-primary" value="Enviar solicitud"></input>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function myFunction() {
+        var getData = document.getElementById("trabajadors").value;
+        if (getData == "") {
+            document.getElementById("cedula").value = "";
+            document.getElementById("ced").value = "";
+            document.getElementById("nombre").value = "";
+            document.getElementById("trabajadors").value = "";
+        }
+        var flag = false;
+        var cedula = "";
+        var nombre = "";
+        for (var i = 0; i < getData.length; i++) {
+            if (getData[i] != ' ') {
+                cedula = cedula + getData[i];
+                flag = true;
+            }
+            else {
+                break;
+            }
+        }
+        if (flag) {
+            for (j = i + 1; j < getData.length; j++) {
+                nombre = nombre + getData[j];
+            }
+        }
+        document.getElementById("cedula").value = cedula;
+        document.getElementById("ced").value = cedula;
+        document.getElementById("nombre").value = nombre;
+        document.getElementById("trabajadors").value = nombre;
+        
+    }
+
+    function myFunctionObra() {
+        var getData = document.getElementById("obras").value;
+        if (getData == "") {
+            document.getElementById("codigo").value = codigo;
+            document.getElementById("cod").value = codigo;
+            document.getElementById("obra").value = nombre;
+            document.getElementById("obras").value = nombre;
+        }
+        var flag = false;
+        var codigo = "";
+        var nombre = "";
+        for (var i = 0; i < getData.length; i++) {
+            if (getData[i] != ' ') {
+                codigo = codigo + getData[i];
+                flag = true;
+            }
+            else {
+                break;
+            }
+        }
+        if (flag) {
+            for (j = i + 1; j < getData.length; j++) {
+                nombre = nombre + getData[j];
+            }
+        }
+        
+        document.getElementById("codigo").value = codigo;
+        document.getElementById("cod").value = codigo;
+        document.getElementById("obra").value = nombre;
+        document.getElementById("obras").value = nombre;
+    }
+
+</script>

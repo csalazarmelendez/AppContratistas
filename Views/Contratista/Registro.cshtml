@@ -1,0 +1,103 @@
+﻿@model Contratistas.Models.SolicitudRegistro
+@{
+    ViewData["Title"] = "Envío de solicitud de registro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <LINK REL=StyleSheet HREF="~/css/Registro.css" TYPE="text/css" MEDIA=screen>
+    <script src="~/js/Registro.js"></script>
+</body>
+
+
+<h1>Registro</h1>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10">
+            <form method="post" asp-action="Registro" onsubmit="verificarPasswords()">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="NIT" class="control-label">NIT</label>
+                    <input asp-for="NIT" class="form-control" placeholder="NIT ej:800.197.268-4" />
+                    <span asp-validation-for="NIT" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Razon_social" class="control-label">Razón social</label>
+                    <input asp-for="Razon_social" class="form-control" placeholder="Nombre empresa">
+                    <span asp-validation-for="Razon_social" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label">Email</label>
+                    <input asp-for="Email" class="form-control" placeholder="Email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Operador" class="control-label">Operador</label>
+                    <!--<input asp-for="Operador" class="form-control" placeholder="Operador">-->
+                    <select id="operador" class="form-control" onclick="operadorId()" placeholder="Operador">
+                        @if (ViewBag.Operadores != null)
+                        {
+                            @for (int i = 0; i < ViewBag.Operadores.Count; i++)
+                            {
+                                <option value=@ViewBag.Operadores[i].Item1>@ViewBag.Operadores[i].Item2</option>
+                            }
+                        }
+
+                    </select>
+                    <input id="id" value="" hidden/>
+                    <input  asp-for="Operador" id="nombre" value="" hidden/>
+                    
+                    <span asp-validation-for="Operador" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group" id="numeroOpe">
+                   
+                   <label asp-for="NumeroOperador" class="control-label">Numero de operador</label>
+                   <input asp-for="NumeroOperador" type="number" id="numero" value="" class="form-control" required hidden>
+                   <input type="number" id="numerodos" value="" class="form-control" disabled>
+                   <span asp-validation-for="NumeroOperador" class="text-danger"></span>
+                   
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Usuario" class="control-label">Usuario</label>
+                    <input asp-for="Usuario" class="form-control" placeholder="Usuario">
+                    <span asp-validation-for="Usuario" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Contrasena" class="control-label">Contraseña</label>
+                    <input asp-for="Contrasena" type="password" id="pass1" class="form-control" placeholder="Contraseña">
+                    <span asp-validation-for="Contrasena" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Confirmar contraseña</label>
+                    <input type="password" name="conf_contrasena" id="pass2" class="form-control" placeholder="Confirmar contraseña">
+                </div>
+
+                <!-- Mensajes de Verificación -->
+                <div id="error" class="alert alert-danger ocultar" role="alert">
+                    Las Contraseñas no coinciden, vuelve a intentar...
+                </div>
+                <div id="ok" class="alert alert-success ocultar" role="alert">
+                    ¡Las Contraseñas coinciden!
+                </div>
+                <!-- Fin Mensajes de Verificación -->
+
+                <div class="form-group">
+                    <input type="submit" value="Enviar solicitud de registro" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ <partial name="_ValidationScriptsPartial" />}
+}

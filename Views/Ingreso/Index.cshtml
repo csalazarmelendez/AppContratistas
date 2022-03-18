@@ -1,0 +1,66 @@
+﻿@model Contratistas.Models.Contratista
+@{
+    ViewData["Title"] = "Ingreso a la página";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var returnUrl = ViewData["ReturnUrl"] as string;
+}
+
+<h1>Ingreso</h1>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-10">
+            @if (TempData["mensaje"] != null)
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    @TempData["mensaje"]
+                </div>
+            }
+            @if (TempData["mensajeContrasenaActualizada"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["mensajeContrasenaActualizada"]
+                </div>
+            }
+            <form method="post" asp-action="Ingresar">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <!-- Tipo de usuario -->
+                <div class="form-group">
+                    <select name="tipo_usuario" id="usuario" placeholder="Ingresar como">
+                        <option value="contratista">Contratista</option>
+                        <option value="administrador">Administrador</option>
+                    </select>
+                </div>
+
+                <!-- Nombre -->
+                <div class="form-group">
+                    <!--<label asp-for="Usuario" class="control-label"></label>-->
+                    <input name="usuario" type="text" placeholder="Usuario">
+                </div>
+
+                <!-- Contraseña -->
+                <div class="form-group">
+                    <input name="contrasena" type="password" placeholder="Contraseña">
+                </div>
+
+                <!-- Boton -->
+                <div class="form-group">
+                    <input type="submit" value="Ingresar" class="btn btn-primary">
+                </div>
+            </form>
+
+            <form method="post" asp-action="SolicitudRegistro">
+                <div class="form-group">
+                    <input type="submit" value="¿Contratista nuevo? Regístrate" class="btn btn-primary">
+                </div>
+            </form>
+
+            <div class="form-group">
+                <p><a asp-action="RecuperarContrasena">¿Olvidó su contraseña?</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,266 @@
+﻿@model IEnumerable<Contratistas.Models.Trabajador>
+
+@{
+    ViewData["Title"] = "Validacion de datos de trabajadores";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Validación de datos trabajador</h3>
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            @if (TempData["mensaje"] != null)
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    @TempData["mensaje"]
+                </div>
+            }
+
+        <div class="row">
+            <div class="col-sm-12">
+                <form method="post" onchange="myFunctionTrabajador()" asp-controller="Admin" asp-action="BuscarTrabajador" asp-route-adminid="@ViewData["Administrador"]">
+                    <label for="buscar">Buscar por trabajador</label>
+                    <br />
+                    <input list="trabajador" id="trabajadors" name="trabajador" type="text" placeholder="Trabajador" required />
+                    <datalist id="trabajador">
+                        @foreach (var t in ViewBag.Trabajadores_)
+                        {
+                            <option name="trabajador" value="@t">@t</option>
+                        }
+                    </datalist>
+                    <input id="ced" name="ced" hidden/>
+                    <input id="nombre" name="nombre" hidden/>
+                    <input type="submit" value="Buscar" class="btn btn-primary">
+                    <a asp-controller="Admin" asp-action="FiltroEstadoIngreso" asp-route-adminid="@ViewData["Administrador"]" asp-route-filtro=1 class="btn btn-primary">Filtrar autorizados</a>
+                    <a asp-controller="Admin" asp-action="FiltroEstadoIngreso" asp-route-adminid="@ViewData["Administrador"]" asp-route-filtro=0 class="btn btn-primary">Filtrar NO autorizados</a>
+                    <a asp-controller="Admin" asp-action="ValidarDatos" asp-route-adminid="@ViewData["Administrador"]" class="btn btn-primary">Quitar filtros</a>
+                </form>
+
+                <form asp-controller="Admin" asp-action="BuscarContratista" asp-route-adminid="@ViewData["Administrador"]" asp-route-modulo=1>
+                    <label for="buscar">Buscar por contratista</label>
+                    <br />
+                    <input list="contratista" name="contratista" type="text" placeholder="Nombre de la empresa" />
+                    <datalist id="contratista">
+                        @foreach (var c in ViewBag.Contratistas)
+                        {
+                            <option name="contratista" value="@c.Razon_social">@c.NIT</option>
+                        }
+
+                    </datalist>
+                    <input type="submit" class="btn btn-primary" value="Buscar"></input>
+                    
+                </form>
+            </div>
+        </div>
+
+
+
+            @if (@ViewBag.Cedula != null)
+            {
+                <form method="post" asp-action="GuardarDatos" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">Trabajador</label>
+                        <input type="number" class="form-control" value="@ViewBag.Cedula" disabled />
+
+                        <input class="form-control" value="@ViewBag.Nombre" disabled>
+                        <input class="form-control" value="@ViewBag.Apellido" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Contratista</label>
+                        <input class="form-control" value="@ViewBag.NitContratista" disabled />
+
+                        <input name="contratista" class="form-control" value="@ViewBag.Contratista" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Subcontratista</label>
+                        <input class="form-control" value="@ViewBag.NitSubcontratista" disabled />
+
+                        <input name="subcontratista" class="form-control" value="@ViewBag.Subcontratista" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Email trabajador</label>
+                        <input class="form-control" value="@ViewBag.Email" disabled />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Teléfono trabajador</label>
+                        <input class="form-control" value="@ViewBag.Telefono" disabled />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Persona de contacto</label>
+                        <input class="form-control" value="@ViewBag.PersonaContacto" disabled />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Teléfono persona de contacto</label>
+                        <input class="form-control" value="@ViewBag.TelefonoContacto" disabled />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Ciudad</label>
+                        <input class="form-control" value="@ViewBag.Ciudad" disabled />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Obra</label>
+                        @foreach (var obra in ViewBag.Obras)
+                        {
+                            <input class="form-control" value="@obra" disabled />
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><b>¿La cédula es válida?</b></label>
+                        @if (ViewBag.CedulaValida == "Válida")
+                        {
+                            <input name="cedula" type="checkbox" checked />
+                        }
+                        else
+                        {
+                            <input name="cedula" type="checkbox" />
+                        }
+
+                        <img src="@Url.Content(ViewBag.CedulaImg)" alt="Sample Image" width="1000px" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><b>¿La EPS es válida?</b></label>
+                        @if (ViewBag.EPSValida == "Válida")
+                        {
+                            <input name="eps" type="checkbox" checked />
+                        }
+                        else
+                        {
+                            <input name="eps" type="checkbox" />
+                        }
+                        <img src="@Url.Content(ViewBag.EPS)" alt="Sample Image" width="1000px" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><b>¿La ARL es válida?</b></label>
+                        @if (ViewBag.ARLValida == "Válida")
+                        {
+                            <input name="arl" type="checkbox" checked />
+                        }
+                        else
+                        {
+                            <input name="arl" type="checkbox" />
+                        }
+                        <img src="@Url.Content(ViewBag.ARL)" alt="Sample Image" width="1000px" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><b>¿El documento de pensión es válido?</b></label>
+                        @if (ViewBag.PensionValida == "Válida")
+                        {
+                            <input name="pension" type="checkbox" checked />
+                        }
+                        else
+                        {
+                            <input name="pension" type="checkbox" />
+                        }
+                        <img src="@Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Estado de ingreso</label>
+                        <select name="ingreso" class="form-control">
+                            <!--Traer las obras-->
+                            <option name="ingreso">@ViewBag.EstadoIngreso</option>
+                            <option name="ingreso">@ViewBag.NotEstadoIngreso</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Fecha de ingreso a la obra</label>
+                        <input name="fecha" class="form-control" type="date" value="@ViewBag.FechaIngreso" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Observaciones</label>
+                        <textarea name="observacion" class="form-control">@ViewBag.Observacion</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Guardar datos" class="btn btn-primary">
+                    </div>
+                </form>
+            }
+            else
+            {
+                <br />
+                <div class="table-responsive">
+                    <table id="listaTrabajadores" class="table table-bordered table-hover table-striped">
+                        <thead class="thead-light">
+                            <tr>
+                                <td>Cédula</td>
+                                <td>Nombre</td>
+                                <td>Apellido</td>
+                                <td>Contratista</td>
+                                <td>Subcontratista</td>
+                                <td>Estado de ingreso</td>
+                                <td>Validar datos</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var t in ViewBag.Trabajadores)
+                            {
+                                <tr>
+                                    @for (int i = 0; i < 6; i++)
+                                    {
+                                        <td>@t[i]</td>
+                                    }
+                                    <td>
+                                        <a asp-controller="Admin" asp-action="ValidarDatos" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@Convert.ToInt32(t[6])" class="btn btn-primary">Gestionar</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function myFunctionTrabajador() {
+        var getData = document.getElementById("trabajadors").value;
+        if (getData == "") {
+            document.getElementById("ced").value = "";
+            document.getElementById("nombre").value = "";
+            document.getElementById("trabajadors").value = "";
+        }
+        var flag = false;
+        var cedula = "";
+        var nombre = "";
+        for (var i = 0; i < getData.length; i++) {
+            if (getData[i] != ' ') {
+                cedula = cedula + getData[i];
+                flag = true;
+            }
+            else {
+                break;
+            }
+        }
+        if (flag) {
+            for (j = i + 1; j < getData.length; j++) {
+                nombre = nombre + getData[j];
+            }
+        }
+        
+        document.getElementById("ced").value = cedula;
+        document.getElementById("nombre").value = nombre;
+        document.getElementById("trabajadors").value = nombre;
+    }
+</script>
