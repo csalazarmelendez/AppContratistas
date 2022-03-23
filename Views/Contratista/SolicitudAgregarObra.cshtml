@@ -5,65 +5,90 @@
     Layout = "~/Views/Shared/_LayoutContratista.cshtml";
 }
 
-<h3>Solicitud agregar obra a trabajador - @ViewBag.Nombre</h3>
+<div class="titulo">
+    <h3>@ViewBag.Nombre</h3>
+</div>
+<br />
+<div class="titulo">
+    <h4>Solicitud agregar obra a trabajador</h4>
+</div>
+
 
 <br />
 
 <div class="container">
     <div class="row">
-        @if (TempData["mensaje"] != null)
-        {
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                @TempData["mensaje"]
-            </div>
-        }
-        @if (TempData["mensajeE"] != null)
-        {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                @TempData["mensajeE"]
-            </div>
-        }
-        <div class="col-sm-12">
-            <form asp-controller="Contratista" asp-action="EnviarSolicitud" asp-route-contratistaid="@ViewData["Contratista"]">
-                <label asp-for="IdTrabajador" for="buscar">Buscar trabajador</label>
-                <br />
-                <input asp-for="IdTrabajador" onchange="myFunction()" list="trabajador" id="trabajadors" name="trabajador" type="text" placeholder="Nombre del trabajador" required />
-                <span asp-validation-for="IdTrabajador" class="text-danger"></span>
-                <datalist id="trabajador">
-                    @foreach (var t in ViewBag.Trabajadores)
-                    {
-                        <option name="trabajador" value="@t">@t</option>
-                    }
-                </datalist>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            @if (TempData["mensaje"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @TempData["mensaje"]
+                </div>
+            }
+            @if (TempData["mensajeE"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["mensajeE"]
+                </div>
+            }
 
-                <input id="cedula" name="cedulas" placeholder="Cedula" disabled />
-                <input id="nombre" name="nombre" hidden />
-                <input id="ced" name="ced" hidden />
-                <br />
-                <br />
-                <input asp-for="ObrId" onchange="myFunctionObra()" list="obra" id="obras" name="obra" type="text" placeholder="Obra" required />
-                <span asp-validation-for="ObrId" class="text-danger"></span>
-                <datalist id="obra">
-                    @foreach (var obra in ViewBag.Obras)
-                    {
-                        <option name="obra" value="@obra">@obra</option>
-                    }
 
-                </datalist>
-                <input id="codigo" name="codigo" placeholder="Código obra" disabled />
-                <input id="obra" name="obra" hidden />
-                <input id="cod" name="cod" hidden />
-                <br />
-                <br />
-                @if (ViewBag.Trabajadores.Count == 0)
-                {
-                    <input id="boton" type="submit" class="btn btn-primary" value="Enviar solicitud" disabled></input>
-                }
-                else
-                {
-                    <input id="boton" type="submit" class="btn btn-primary" value="Enviar solicitud"></input>
-                }
-            </form>
+        <form asp-controller="Contratista" asp-action="EnviarSolicitud" asp-route-contratistaid="@ViewData["Contratista"]">
+            <div class="row">
+                <div class="col">
+                    <label asp-for="IdTrabajador" for="buscar">Buscar trabajador</label>
+                    <br />
+                    <input asp-for="IdTrabajador" class="form-control" onchange="myFunction()" list="trabajador" id="trabajadors" name="trabajador" type="text" placeholder="Nombre del trabajador" required />
+                    <span asp-validation-for="IdTrabajador" class="text-danger"></span>
+                    <datalist id="trabajador">
+                        @foreach (var t in ViewBag.Trabajadores)
+                        {
+                            <option name="trabajador" value="@t">@t</option>
+                        }
+                    </datalist>
+                </div>
+
+                <div class="col">
+                    <label for="buscar">Cédula</label>
+                    <input id="cedula" name="cedulas" placeholder="Cedula" class="form-control" disabled />
+                    <input id="nombre" name="nombre" hidden />
+                    <input id="ced" name="ced" hidden />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col">
+                    <label asp-for="ObrId" for="buscar">Buscar obra</label>
+                    <input asp-for="ObrId" class="form-control" onchange="myFunctionObra()" list="obra" id="obras" name="obra" type="text" placeholder="Obra" required />
+                    <span asp-validation-for="ObrId" class="text-danger"></span>
+                    <datalist id="obra">
+                        @foreach (var obra in ViewBag.Obras)
+                        {
+                            <option name="obra" value="@obra">@obra</option>
+                        }
+
+                    </datalist>
+                </div>
+                <div class="col">
+                    <label for="buscar">Código</label>
+                    <input id="codigo" name="codigo" placeholder="Código obra" class="form-control" disabled />
+                    <input id="obra" name="obra" hidden />
+                    <input id="cod" name="cod" hidden />
+                    <br />
+                    <br />
+                </div>
+            </div>
+            @if (ViewBag.Trabajadores.Count == 0)
+            {
+                <input id="boton" type="submit" class="btn btn-primary" value="Enviar solicitud" disabled></input>
+            }
+            else
+            {
+                <input id="boton" type="submit" class="btn btn-primary" value="Enviar solicitud"></input>
+            }
+
+        </form>
         </div>
     </div>
 </div>
@@ -134,3 +159,22 @@
     }
 
 </script>
+
+<style>
+    .titulo {
+        display: flex;
+        justify-content: center;
+    }
+
+    .container {
+        justify-content: center;
+    }
+
+    .form-control {
+        justify-content: center;
+    }
+
+    .form-group {
+        justify-content: center;
+    }
+</style>
