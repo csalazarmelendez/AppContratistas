@@ -63,6 +63,7 @@ namespace Contratistas.Controllers
                 }
             }
             List<SolicitudRegistro> contratistas = _context.SolicitudRegistro.ToList();
+            contratistas.Reverse();
             @ViewBag.Contratistas = contratistas;
             return View(listaSolicitudes);
             //return View();
@@ -267,6 +268,7 @@ namespace Contratistas.Controllers
                 @ViewBag.Trabajadores = trabajadores;
             }
             List<Contratista> contratistas = _context.Contratista.ToList();
+            contratistas.Reverse();
             @ViewBag.Contratistas = contratistas;
             List<Trabajador> trabajadores_ = _context.Trabajador.ToList();
             List<string> nomTrabajadores = new List<string>();
@@ -275,6 +277,7 @@ namespace Contratistas.Controllers
                 string nombreCompleto = t.Cedula + " " + t.Nombre + " " + t.Apellido;
                 nomTrabajadores.Add(nombreCompleto);
             }
+            nomTrabajadores.Reverse();
             @ViewBag.Trabajadores_ = nomTrabajadores;
             return View();
         }
@@ -423,6 +426,7 @@ namespace Contratistas.Controllers
                 listaSolicitudes.Add(solicitud);
 
             }
+            listaSolicitudes.Reverse();
             @ViewBag.listaSolicitudes = listaSolicitudes;
             List<Trabajador> listaTrabajadores = _context.Trabajador.ToList();
             List<Contratista> listaContratistas = _context.Contratista.ToList();
@@ -432,6 +436,8 @@ namespace Contratistas.Controllers
                 string nombreCompleto = t.Cedula + " " + t.Nombre + " " + t.Apellido;
                 nomTrabajadores.Add(nombreCompleto);
             }
+            nomTrabajadores.Reverse();
+            listaContratistas.Reverse();
             @ViewBag.Trabajadores = nomTrabajadores;
             @ViewBag.Contratistas = listaContratistas;
             @ViewData["Administrador"] = adminid;

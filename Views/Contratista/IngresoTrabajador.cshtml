@@ -9,7 +9,9 @@
     Layout = "~/Views/Shared/_LayoutContratista.cshtml";
 }
 
-<h3>Ingreso trabajador - @ViewBag.Nombre</h3>
+<div class="titulo">
+    <h3>Ingreso trabajador - @ViewBag.Nombre</h3>
+</div>
 
 <body>
     <script src="~/js/Registro.js"></script>
@@ -17,7 +19,8 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-10">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
             @if (TempData["mensaje"] != null)
             {
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -201,3 +204,21 @@
     </script>
 </body>
 
+<style>
+    .titulo {
+        display: flex;
+        justify-content: center;
+    }
+
+    .container {
+        justify-content: center;
+    }
+
+    .form-control {
+        justify-content: center;
+    }
+
+    .form-group {
+        justify-content: center;
+    }
+</style>

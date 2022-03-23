@@ -4,13 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var returnUrl = ViewData["ReturnUrl"] as string;
 }
+<div class="titulo">
+    <h1>Ingreso</h1>
+</div>
 
-<h1>Ingreso</h1>
-
+<br />
 <div class="container">
 
     <div class="row">
-        <div class="col-sm-10">
+        <div class="col-md-12">
             @if (TempData["mensaje"] != null)
             {
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -27,7 +29,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <!-- Tipo de usuario -->
                 <div class="form-group">
-                    <select name="tipo_usuario" id="usuario" placeholder="Ingresar como">
+                    <select class="form-control" name="tipo_usuario" id="usuario" placeholder="Ingresar como">
                         <option value="contratista">Contratista</option>
                         <option value="administrador">Administrador</option>
                     </select>
@@ -36,23 +38,23 @@
                 <!-- Nombre -->
                 <div class="form-group">
                     <!--<label asp-for="Usuario" class="control-label"></label>-->
-                    <input name="usuario" type="text" placeholder="Usuario">
+                    <input class="form-control" name="usuario" type="text" placeholder="Usuario">
                 </div>
 
                 <!-- Contraseña -->
                 <div class="form-group">
-                    <input name="contrasena" type="password" placeholder="Contraseña">
+                    <input class="form-control" name="contrasena" type="password" placeholder="Contraseña">
                 </div>
 
                 <!-- Boton -->
                 <div class="form-group">
-                    <input type="submit" value="Ingresar" class="btn btn-primary">
+                    <input type="submit" value="Ingresar" class="btn btn-primary form-control">
                 </div>
             </form>
 
             <form method="post" asp-action="SolicitudRegistro">
                 <div class="form-group">
-                    <input type="submit" value="¿Contratista nuevo? Regístrate" class="btn btn-primary">
+                    <input type="submit" value="¿Contratista nuevo? Regístrate" class="btn btn-primary form-control">
                 </div>
             </form>
 
@@ -63,4 +65,21 @@
         </div>
     </div>
 </div>
+
+<style>
+    .titulo {
+        display: flex;
+        justify-content: center;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .form-group {
+        display: flex;
+        justify-content: center;
+    }
+</style>
 
