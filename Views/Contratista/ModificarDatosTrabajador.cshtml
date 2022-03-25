@@ -1,0 +1,254 @@
+﻿@model Contratistas.Models.ValidarDatosTrabajador
+
+
+@{
+    //var obras = (List<string>)ViewData["Obras"]; // Cast the list
+}
+
+@{
+    ViewData["Title"] = "Actualizar Datos Trabajador";
+    Layout = "~/Views/Shared/_LayoutContratista.cshtml";
+}
+
+<div class="titulo">
+    <h3>@ViewBag.Nombre</h3>
+</div>
+<br />
+<div class="titulo">
+    <h4>Modificar datos trabajador</h4>
+</div>
+<br />
+
+<body>
+    <script src="~/js/Registro.js"></script>
+</body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            @if (TempData["mensaje"] != null)
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    @TempData["mensaje"]
+                </div>
+            }
+            @if (TempData["mensaje1"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["mensaje1"]
+                </div>
+            }
+            <form method="post" asp-action="ModificarDatosTrabajador" asp-route-contratistaid="@ViewData["Contratista"]" asp-route-trabajadorced=1>
+                <div class="row">
+                    <div class="col">
+                        <input class="form-control" name="cedula" type="number" placeholder="Cédula del trabajador" />
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Buscar trabajador</button>
+                    </div>
+                </div>
+            </form>
+            <br />
+            @if (ViewBag.Trabajador != null)
+            {
+
+        <form method="post" asp-action="RegistroTrabajador" asp-route-contratistaid="@ViewData["Contratista"]" enctype=multipart/form-data>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Cedula" class="control-label">Trabajador</label>
+                <input asp-for="Cedula" type="number" class="form-control" value="@ViewBag.Trabajador.Cedula" placeholder="Cédula" disabled />
+                <span asp-validation-for="Cedula" class="text-danger"></span>
+
+                <input asp-for="Nombre" class="form-control" value="@ViewBag.Trabajador.Nombre" placeholder="Nombre trabajador">
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+
+                <input asp-for="Apellido" class="form-control" value="@ViewBag.Trabajador.Apellido" placeholder="Apellidos trabajador">
+                <span asp-validation-for="Apellido" class="text-danger"></span>
+            </div>
+
+            @if (@ViewBag.Subcontratista != null)
+            {
+                <div class="form-group">
+                    <label class="control-label">Subcontratista</label>
+                    <input name="nitSubcontratista" type="number" class="form-control" value="@ViewBag.Subcontratista.Razon_social" />
+
+
+                    <input name="nombreSubcontratista" class="form-control" placeholder="Nombre empresa">
+                </div>
+            }
+
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control" value="@ViewBag.Trabajador.Email" placeholder="Email@email.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Telefono" class="control-label">Télefono</label>
+                <input asp-for="Telefono" type="number" value="@ViewBag.Trabajador.Telefono" class="form-control" placeholder="Teléfono" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PersonaContacto" class="control-label">Persona de contacto</label>
+                <input asp-for="PersonaContacto" class="form-control" value="@ViewBag.Trabajador.PersonaContacto" placeholder="Nombre y apellido" />
+                <span asp-validation-for="PersonaContacto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TelefonoContacto" class="control-label">Teléfono del contacto</label>
+                <input asp-for="TelefonoContacto" type="number" class="form-control" value="@ViewBag.Trabajador.TelefonoContacto" placeholder="Teléfono del contacto" />
+                <span asp-validation-for="TelefonoContacto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Ciudad" class="control-label">Ciudad</label>
+                <input asp-for="Ciudad" value="@ViewBag.Trabajador.Ciudad" class="form-control"></input>
+                <span asp-validation-for="Ciudad" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Obra</label>
+                <br />
+                    <ul>
+                        @foreach (var obra in ViewBag.Obras)
+                        {
+                            <li>@obra.obrNombre</li>
+                        }
+                    </ul>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="CedulaImg" class="control-label">Archivo cédula</label>
+                        <div class="custom-file">
+                            <input asp-for="CedulaImg" class="form-control custom-file-input" />
+                            <label class="custom-file-label">Selecciona un archivo</label>
+                            <span asp-validation-for="CedulaImg" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="EPS" class="control-label">Archivo EPS</label>
+                        <div class="custom-file">
+                            <input asp-for="EPS" class="form-control custom-file-input" />
+                            <label class="custom-file-label">Selecciona un archivo</label>
+                            <span asp-validation-for="EPS" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="ARL" class="control-label">Archivo ARL</label>
+                        <div class="custom-file">
+                            <input asp-for="ARL" class="form-control custom-file-input" />
+                            <label class="custom-file-label">Selecciona un archivo</label>
+                            <span asp-validation-for="ARL" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Pension" class="control-label">Archivo pension</label>
+                        <div class="custom-file">
+                            <input asp-for="Pension" class="form-control custom-file-input" />
+                            <label class="custom-file-label">Selecciona un archivo</label>
+                            <span asp-validation-for="Pension" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Actualizar datos</button>
+            </div>
+
+            @section Scripts {
+
+                <script>
+                    $(document).ready(function () {
+                        $('.custom-file-input').on("change", function () {
+                            var filename = $(this).val().split("\\").pop();
+                            $(this).next('.custom-file-label').html(filename);
+                        });
+                    });
+                </script>
+            }
+        </form>
+            }
+        </div>
+    </div>
+</div>
+
+<body>
+    <script src="~/js/departamentos.json"></script>
+    <script src="~/js/departamento.js"></script>
+    <script src="~/js/deparInfo.js"></script>
+    <script src="~/js/Registro.js"></script>
+    <script>
+        function myFunctionObra() {
+            var getData = document.getElementById("obras").value;
+            if (getData == "") {
+                document.getElementById("codigo").value = codigo;
+                document.getElementById("cod").value = codigo;
+                document.getElementById("obra").value = nombre;
+                document.getElementById("obras").value = nombre;
+            }
+            var flag = false;
+            var codigo = "";
+            var nombre = "";
+            for (var i = 0; i < getData.length; i++) {
+                if (getData[i] != ' ') {
+                    codigo = codigo + getData[i];
+                    flag = true;
+                }
+                else {
+                    break;
+                }
+            }
+            if (flag) {
+                for (j = i + 1; j < getData.length; j++) {
+                    nombre = nombre + getData[j];
+                }
+            }
+
+            document.getElementById("codigo").value = codigo;
+            document.getElementById("cod").value = codigo;
+            document.getElementById("obra").value = nombre;
+            document.getElementById("obras").value = nombre;
+        }
+    </script>
+</body>
+
+<style>
+    .titulo {
+        display: flex;
+        justify-content: center;
+    }
+
+    .container {
+        justify-content: center;
+    }
+
+    .form-control {
+        justify-content: center;
+    }
+
+    .form-group {
+        justify-content: center;
+    }
+
+    .btn btn-primary {
+        display: flex;
+        justify-content: center;
+    }
+</style>

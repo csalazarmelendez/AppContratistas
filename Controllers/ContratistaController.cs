@@ -48,11 +48,23 @@ namespace Contratistas.Controllers
         {
             //Crea la solicitud de registro
 
-
+            bool valid = false;
             solicitudRegistro.Transaccion = "Pendiente";
             if (ModelState.IsValid)
             {
-
+                valid = true;
+            }
+            else
+            {
+                string operador = Request.Form["nuevooperador"].ToString();
+                string numero = Request.Form["numeros"].ToString();
+                solicitudRegistro.Operador = operador;
+                solicitudRegistro.NumeroOperador = numero;
+                valid = ModelState.IsValid ? true : false;
+            }
+            
+            if (valid)
+            {
                 string contrasena = Request.Form["contrasena"].ToString();
                 string conf_contrasena = Request.Form["conf_contrasena"].ToString();
                 if (contrasena == conf_contrasena)
@@ -63,7 +75,6 @@ namespace Contratistas.Controllers
                     return RedirectToAction("Index", "Ingreso");
                 }
             }
-            //return View("Views/Contratista/Registro.cshtml");
             TempData["mensaje"] = "Algo ocurrió. No se envió la solicitud...";
             return RedirectToAction("Registro", "Contratista");
         }
@@ -82,6 +93,35 @@ namespace Contratistas.Controllers
             @ViewData["Contratista"] = contratistaid;
             var nombre = _context.Contratista.Find(contratistaid);
             @ViewBag.Nombre = nombre.Razon_social;
+            return View();
+        }
+
+        public IActionResult ModificarDatosTrabajador(int contratistaid, int? trabajadorced)
+        {
+            if (trabajadorced != null)
+            {
+                string cedula = Request.Form["cedula"].ToString();
+                var getTrabajador = _context.Trabajador.Where(s => s.Cedula == cedula && s.IdContratista == contratistaid).ToList();
+                if (getTrabajador.Count > 0)
+                {
+                    List<Obra> obras = new List<Obra>();
+                    var obrasxtrabajador = _context.TrabajadorXObra.Where(s => s.IdTrabajador == getTrabajador[0].Id).ToList();
+                    foreach (var o in obrasxtrabajador)
+                    {
+                        var obra = _context.Obra.Find(o.ObrId);
+                        obras.Add(obra);                        
+                    }
+                    var subcontratista = (getTrabajador[0].IdSubcontratista != null) ? _context.Subcontratista.Where(s => s.Id == getTrabajador[0].IdSubcontratista).ToList()[0] : null;
+                    @ViewBag.Obras = obras;
+                    @ViewBag.Trabajador = getTrabajador[0];
+                    @ViewBag.Subcontratista = subcontratista;
+                }
+                else
+                {
+                    @ViewBag.Trabajador = null;
+                }
+            }
+            @ViewData["Contratista"] = contratistaid;
             return View();
         }
 

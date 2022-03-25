@@ -33,7 +33,9 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+
     </div>
+
 
     <footer class="border-top footer text-muted">
         <div class="container">
@@ -45,11 +47,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
-    <style>
-        .border-top footer text-muted{
-            background-color: blue;
-        }
-    </style>
+    
 </body>
 </html>
 
