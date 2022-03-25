@@ -59,7 +59,7 @@
 
                         </select>
                         <input id="id" value="" hidden />
-                        <input asp-for="Operador" id="nombre" value="" />
+                        <input asp-for="Operador" id="nombre" value="" hidden/>
 
                         <span asp-validation-for="Operador" class="text-danger"></span>
                     </div>
@@ -73,8 +73,8 @@
                 <div class="form-group" id="numeroOpe">
 
                     <label asp-for="NumeroOperador" class="control-label">Numero de operador</label>
-                    <input asp-for="NumeroOperador" type="number" id="numero" value="" class="form-control" onchange="auxiliar()" required>
-                    <input type="number" id="numerodos" value="" name="numeros" class="form-control" disabled>
+                    <input type="number" id="numerodos" value="" name="numeros" class="form-control" onkeyup="auxiliar()" disabled>
+                    <input asp-for="NumeroOperador" type="number" id="numero" value="" class="form-control" required hidden>
                     <span asp-validation-for="NumeroOperador" class="text-danger"></span>
 
                 </div>

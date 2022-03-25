@@ -96,11 +96,14 @@ namespace Contratistas.Controllers
             return View();
         }
 
-        public IActionResult ModificarDatosTrabajador(int contratistaid, int? trabajadorced)
+        public IActionResult ModificarDatosTrabajador(int contratistaid, int? trabajadorced, int? trabajadorid, int? actualizarid, ValidarDatosTrabajador datosActualizar)
         {
-            if (trabajadorced != null)
+            var contratista = _context.Contratista.Find(contratistaid);
+            @ViewBag.Nombre = contratista.Razon_social;
+            @ViewData["Contratista"] = contratistaid;
+            if (trabajadorced != null || trabajadorid != null)
             {
-                string cedula = Request.Form["cedula"].ToString();
+                string cedula = (trabajadorced != null) ? Request.Form["cedula"].ToString() : _context.Trabajador.Find(trabajadorid).Cedula.ToString();
                 var getTrabajador = _context.Trabajador.Where(s => s.Cedula == cedula && s.IdContratista == contratistaid).ToList();
                 if (getTrabajador.Count > 0)
                 {
@@ -121,7 +124,66 @@ namespace Contratistas.Controllers
                     @ViewBag.Trabajador = null;
                 }
             }
-            @ViewData["Contratista"] = contratistaid;
+            else if (actualizarid != null)
+            {
+                var trabajador = _context.Trabajador.Find(actualizarid);
+                var documento = _context.Documento.Where(s => s.Trabajador == actualizarid).ToList()[0];
+                trabajador.Nombre = datosActualizar.Nombre;
+                trabajador.Apellido = datosActualizar.Apellido;
+                trabajador.Email = datosActualizar.Email;
+                trabajador.Telefono = datosActualizar.Telefono;
+                trabajador.PersonaContacto = datosActualizar.PersonaContacto;
+                trabajador.TelefonoContacto = datosActualizar.TelefonoContacto;
+
+                string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Documentos"); //borrar linea filePath = filePath + @"\Documentos";
+                filePath = filePath + @"\" + contratista.NIT;
+                string ced = trabajador.Cedula;
+                string rutaDefinitiva = "";
+                string rutawwwroot = "~/Documentos/" + contratista.NIT + "/";
+                if (datosActualizar.CedulaImg != null)
+                {
+                    //Guarda la cedula
+                    string cedula = ced + "_cedula" + datosActualizar.CedulaImg.FileName.Substring(datosActualizar.CedulaImg.FileName.Length - 4);
+                    rutaDefinitiva = Path.Combine(filePath, cedula);
+                    datosActualizar.CedulaImg.CopyTo(new FileStream(rutaDefinitiva, FileMode.Create));
+                    documento.Cedula = Path.Combine(rutawwwroot, cedula);
+                }
+                if (datosActualizar.EPS != null)
+                {
+                    //Guarda la EPS
+                    string eps = ced + "_eps" + datosActualizar.EPS.FileName.Substring(datosActualizar.EPS.FileName.Length - 4);
+                    rutaDefinitiva = Path.Combine(filePath, eps);
+                    datosActualizar.EPS.CopyTo(new FileStream(rutaDefinitiva, FileMode.Create));
+                    documento.EPS = Path.Combine(rutawwwroot, eps);
+                }
+                if (datosActualizar.ARL != null)
+                {
+                    //Guarda el ARL
+                    string arl = ced + "_arl" + datosActualizar.ARL.FileName.Substring(datosActualizar.ARL.FileName.Length - 4);
+                    rutaDefinitiva = Path.Combine(filePath, arl);
+                    datosActualizar.ARL.CopyTo(new FileStream(rutaDefinitiva, FileMode.Create));
+                    documento.ARL = Path.Combine(rutawwwroot, arl);
+                }
+                if (datosActualizar.Pension != null)
+                {
+                    //Guarda la Pension
+                    string pension = ced + "_pension" + datosActualizar.Pension.FileName.Substring(datosActualizar.Pension.FileName.Length - 4);
+                    rutaDefinitiva = Path.Combine(filePath, pension);
+                    datosActualizar.Pension.CopyTo(new FileStream(rutaDefinitiva, FileMode.Create));
+                    documento.Pension = Path.Combine(rutawwwroot, pension);
+                }
+                _context.Trabajador.Update(trabajador);
+                _context.SaveChanges();
+                _context.Documento.Update(documento);
+                _context.SaveChanges();
+                return RedirectToAction("ModificarDatosTrabajador", "Contratista", new { contratistaid = contratista.Id });
+            }
+            else
+            {
+                var trabajadores = _context.Trabajador.Where(s => s.IdContratista == contratistaid).ToList();
+                @ViewBag.Trabajadores = trabajadores;
+            }
+
             return View();
         }
 

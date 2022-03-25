@@ -53,71 +53,71 @@
             @if (ViewBag.Trabajador != null)
             {
 
-        <form method="post" asp-action="RegistroTrabajador" asp-route-contratistaid="@ViewData["Contratista"]" enctype=multipart/form-data>
+        <form method="post" asp-action="ModificarDatosTrabajador" asp-route-contratistaid="@ViewData["Contratista"]" asp-route-actualizarid="@ViewBag.Trabajador.Id" enctype=multipart/form-data>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Cedula" class="control-label">Trabajador</label>
                 <input asp-for="Cedula" type="number" class="form-control" value="@ViewBag.Trabajador.Cedula" placeholder="Cédula" disabled />
-                <span asp-validation-for="Cedula" class="text-danger"></span>
+                
 
-                <input asp-for="Nombre" class="form-control" value="@ViewBag.Trabajador.Nombre" placeholder="Nombre trabajador">
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+                <input asp-for="Nombre" name="nombre" class="form-control" value="@ViewBag.Trabajador.Nombre" placeholder="Nombre trabajador">
+                
 
-                <input asp-for="Apellido" class="form-control" value="@ViewBag.Trabajador.Apellido" placeholder="Apellidos trabajador">
-                <span asp-validation-for="Apellido" class="text-danger"></span>
+                <input asp-for="Apellido" name="apellido" class="form-control" value="@ViewBag.Trabajador.Apellido" placeholder="Apellidos trabajador">
+                
             </div>
 
             @if (@ViewBag.Subcontratista != null)
             {
                 <div class="form-group">
                     <label class="control-label">Subcontratista</label>
-                    <input name="nitSubcontratista" type="number" class="form-control" value="@ViewBag.Subcontratista.Razon_social" />
+                    <input name="nitSubcontratista" type="number" class="form-control" value="@ViewBag.Subcontratista.NIT" disabled />
 
 
-                    <input name="nombreSubcontratista" class="form-control" placeholder="Nombre empresa">
+                    <input name="nombreSubcontratista" class="form-control" value="@ViewBag.Subcontratista.Razon_social" disabled>
                 </div>
             }
 
 
             <div class="form-group">
                 <label asp-for="Email" class="control-label">Email</label>
-                <input asp-for="Email" class="form-control" value="@ViewBag.Trabajador.Email" placeholder="Email@email.com" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <input asp-for="Email" name="email" class="form-control" value="@ViewBag.Trabajador.Email" placeholder="Email@email.com" />
+                
             </div>
 
             <div class="form-group">
                 <label asp-for="Telefono" class="control-label">Télefono</label>
-                <input asp-for="Telefono" type="number" value="@ViewBag.Trabajador.Telefono" class="form-control" placeholder="Teléfono" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
+                <input asp-for="Telefono" name="telefono" type="number" value="@ViewBag.Trabajador.Telefono" class="form-control" placeholder="Teléfono" />
+                
             </div>
 
             <div class="form-group">
                 <label asp-for="PersonaContacto" class="control-label">Persona de contacto</label>
-                <input asp-for="PersonaContacto" class="form-control" value="@ViewBag.Trabajador.PersonaContacto" placeholder="Nombre y apellido" />
-                <span asp-validation-for="PersonaContacto" class="text-danger"></span>
+                <input asp-for="PersonaContacto" name="persona" class="form-control" value="@ViewBag.Trabajador.PersonaContacto" placeholder="Nombre y apellido" />
+                
             </div>
 
             <div class="form-group">
                 <label asp-for="TelefonoContacto" class="control-label">Teléfono del contacto</label>
-                <input asp-for="TelefonoContacto" type="number" class="form-control" value="@ViewBag.Trabajador.TelefonoContacto" placeholder="Teléfono del contacto" />
-                <span asp-validation-for="TelefonoContacto" class="text-danger"></span>
+                <input asp-for="TelefonoContacto" name="telefonocontacto" type="number" class="form-control" value="@ViewBag.Trabajador.TelefonoContacto" placeholder="Teléfono del contacto" />
+                
             </div>
 
             <div class="form-group">
                 <label asp-for="Ciudad" class="control-label">Ciudad</label>
-                <input asp-for="Ciudad" value="@ViewBag.Trabajador.Ciudad" class="form-control"></input>
-                <span asp-validation-for="Ciudad" class="text-danger"></span>
+                <input asp-for="Ciudad" value="@ViewBag.Trabajador.Ciudad" class="form-control" disabled></input>
+                
             </div>
 
             <div class="form-group">
                 <label class="control-label">Obra</label>
                 <br />
-                    <ul>
-                        @foreach (var obra in ViewBag.Obras)
-                        {
-                            <li>@obra.obrNombre</li>
-                        }
-                    </ul>
+                <ul>
+                    @foreach (var obra in ViewBag.Obras)
+                    {
+                        <li>@obra.obrNombre</li>
+                    }
+                </ul>
             </div>
 
             <div class="row">
@@ -125,9 +125,16 @@
                     <div class="form-group">
                         <label asp-for="CedulaImg" class="control-label">Archivo cédula</label>
                         <div class="custom-file">
-                            <input asp-for="CedulaImg" class="form-control custom-file-input" />
+                            <input asp-for="CedulaImg" name="cedula" class="form-control custom-file-input" />
                             <label class="custom-file-label">Selecciona un archivo</label>
-                            <span asp-validation-for="CedulaImg" class="text-danger"></span>
+                            @if (ViewBag.Trabajador.CedulaValida != "Válida")
+                            {
+                                <p class="text-danger">*La cédula no es válida. Por favor cargar cédula válida*</p>
+                            }
+                            else
+                            {
+                                <p class="text-success">Cédula válida</p>
+                            }
                         </div>
                     </div>
                 </div>
@@ -136,22 +143,36 @@
                     <div class="form-group">
                         <label asp-for="EPS" class="control-label">Archivo EPS</label>
                         <div class="custom-file">
-                            <input asp-for="EPS" class="form-control custom-file-input" />
+                            <input asp-for="EPS" name="eps" class="form-control custom-file-input" />
                             <label class="custom-file-label">Selecciona un archivo</label>
-                            <span asp-validation-for="EPS" class="text-danger"></span>
+                            @if (ViewBag.Trabajador.EPSValida != "Válida")
+                            {
+                                <p class="text-danger">*La EPS no es válida. Por favor cargar EPS válida*</p>
+                            }
+                            else
+                            {
+                                <p class="text-success">EPS válida</p>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col">
                     <div class="form-group">
                         <label asp-for="ARL" class="control-label">Archivo ARL</label>
                         <div class="custom-file">
-                            <input asp-for="ARL" class="form-control custom-file-input" />
+                            <input asp-for="ARL" name="arl" class="form-control custom-file-input" />
                             <label class="custom-file-label">Selecciona un archivo</label>
-                            <span asp-validation-for="ARL" class="text-danger"></span>
+                            @if (ViewBag.Trabajador.ARLValida != "Válida")
+                            {
+                                <p class="text-danger">*La ARL no es válida. Por favor cargar ARL válida*</p>
+                            }
+                            else
+                            {
+                                <p class="text-success">ARL válida</p>
+                            }
                         </div>
                     </div>
                 </div>
@@ -160,12 +181,24 @@
                     <div class="form-group">
                         <label asp-for="Pension" class="control-label">Archivo pension</label>
                         <div class="custom-file">
-                            <input asp-for="Pension" class="form-control custom-file-input" />
+                            <input asp-for="Pension" name="pension" class="form-control custom-file-input" />
                             <label class="custom-file-label">Selecciona un archivo</label>
-                            <span asp-validation-for="Pension" class="text-danger"></span>
+                            @if (ViewBag.Trabajador.PensionValida != "Válida")
+                            {
+                                <p class="text-danger">*El archivo de pensión no es válida. Por favor cargar archivo de pensión válido*</p>
+                            }
+                            else
+                            {
+                                <p class="text-success">Pensión válido</p>
+                            }
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Observación del administrador</label>
+                <textarea value="@ViewBag.Trabajador.Observacion" class="form-control" disabled></textarea>
             </div>
 
             <div class="form-group">
@@ -184,6 +217,37 @@
                 </script>
             }
         </form>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table id="listaTrabajadores" class="table table-bordered table-hover table-striped">
+                        <thead class="thead-light">
+                            <tr>
+                                <td>Cédula</td>
+                                <td>Nombre</td>
+                                <td>Apellido</td>
+                                <td>Estado de ingreso</td>
+                                <td>Actualizar datos</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var t in ViewBag.Trabajadores)
+                            {
+                            <tr>
+                                <td>@t.Cedula</td>
+                                <td>@t.Nombre</td>
+                                <td>@t.Apellido</td>
+                                <td>@t.EstadoIngreso</td>
+                                <td>
+                                    <a asp-controller="Contratista" asp-action="ModificarDatosTrabajador" asp-route-contratistaid="@ViewData["Contratista"]" asp-route-trabajadorid=@t.Id  class="btn btn-primary">Actualizar</a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             }
         </div>
     </div>

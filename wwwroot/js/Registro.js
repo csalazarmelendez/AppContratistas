@@ -46,6 +46,6 @@ function nuevoOperador() {
 function auxiliar() {
     var x = document.getElementById("nuevooperador").value;
     document.getElementById("nombre").value = x;
-    var y = document.getElementById("numero").value;
-    document.getElementById("numerodos").value = y;
+    var y = document.getElementById("numerodos").value;
+    document.getElementById("numero").value = y;
 }
