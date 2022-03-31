@@ -118,7 +118,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><b>¿La cédula es válida?</b></label>
+                        <label class="control-label"><b>¿La cédula es válida?</b></label>    
                         @if (ViewBag.CedulaValida == "Válida")
                         {
                             <input name="cedula" type="checkbox" checked />
@@ -127,8 +127,12 @@
                         {
                             <input name="cedula" type="checkbox" />
                         }
-                        <img src="@Url.Content(ViewBag.CedulaImg)" alt="Sample Image" width="1000px" />
                     </div>
+                    <div class="form-group">
+                        <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.CedulaImg" class="btn btn-primary">Descargar Cédula</a>
+                        <!--<img src="Url.Content(ViewBag.CedulaImg)" alt="Sample Image" width="1000px" />-->
+                    </div>
+                     
 
                     <div class="form-group">
                         <label class="control-label"><b>¿La EPS es válida?</b></label>
@@ -140,7 +144,10 @@
                         {
                             <input name="eps" type="checkbox" />
                         }
-                        <img src="@Url.Content(ViewBag.EPS)" alt="Sample Image" width="1000px" />
+                    </div>
+                    <div class="form-group">
+                        <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.EPS" class="btn btn-primary">Descargar EPS</a>
+                        <!--<img src="Url.Content(ViewBag.EPS)" alt="Sample Image" width="1000px" />-->
                     </div>
 
                     <div class="form-group">
@@ -153,11 +160,16 @@
                         {
                             <input name="arl" type="checkbox" />
                         }
-                        <img src="@Url.Content(ViewBag.ARL)" alt="Sample Image" width="1000px" />
+                    </div>
+
+                    <div class="form-group">
+                        <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.ARL" class="btn btn-primary">Descargar ARL</a>
+                        <!--<img src="Url.Content(ViewBag.ARL)" alt="Sample Image" width="1000px" />-->
                     </div>
 
                     <div class="form-group">
                         <label class="control-label"><b>¿El documento de pensión es válido?</b></label>
+
                         @if (ViewBag.PensionValida == "Válida")
                         {
                             <input name="pension" type="checkbox" checked />
@@ -166,9 +178,12 @@
                         {
                             <input name="pension" type="checkbox" />
                         }
-                        <img src="@Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />
                     </div>
 
+                    <div class="form-group">
+                        <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.Pension" class="btn btn-primary">Descargar Pension</a>
+                        <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
+                    </div>
 
                     <div class="form-group">
                         <label class="control-label">Estado de ingreso</label>

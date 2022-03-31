@@ -1,12 +1,14 @@
 ﻿using Contratistas.Data;
 using Contratistas.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,12 +22,14 @@ namespace Contratistas.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly ILogger<AdminController> _logger;
-        public AdminController(ApplicationDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ILogger<AdminController> logger)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public AdminController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ILogger<AdminController> logger)
         {
             _context = context;
             this.userManager = userManager;
             this.signInManager = signInManager;
             _logger = logger;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -280,6 +284,32 @@ namespace Contratistas.Controllers
             nomTrabajadores.Reverse();
             @ViewBag.Trabajadores_ = nomTrabajadores;
             return View();
+        }
+
+        public async  Task<IActionResult> DownloadFile(int adminid, int idtrabajador, string filePath)
+        {
+            filePath = filePath.Remove(0, 1);
+            string path = Directory.GetCurrentDirectory() + @"\wwwroot";
+            foreach (var c in filePath)
+            {
+                if (c == '/')
+                {
+                    path = path + @"\";
+                }
+                else
+                {
+                    path = path + c;
+                }
+            }
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            var contentType = "application/octet-stream";
+            var fileName = Path.GetFileName(path);
+            return File(memory, contentType, fileName);
         }
 
         public IActionResult FiltroEstadoIngreso(int adminid, int filtro)
