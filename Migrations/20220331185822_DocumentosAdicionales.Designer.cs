@@ -4,14 +4,16 @@ using Contratistas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Contratistas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220331185822_DocumentosAdicionales")]
+    partial class DocumentosAdicionales
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,9 +333,6 @@ namespace Contratistas.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CertificadoMedicoLaboralValido")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Ciudad")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -351,14 +350,7 @@ namespace Contratistas.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FechaFinObra")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FechaIngresoObra")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FechaNacimiento")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdContratista")
@@ -382,14 +374,6 @@ namespace Contratistas.Migrations
                     b.Property<string>("PersonaContacto")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PlanillaValida")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SeguridadSocialValida")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefono")
                         .IsRequired()

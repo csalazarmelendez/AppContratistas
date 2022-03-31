@@ -24,6 +24,15 @@ namespace Contratistas.Models
         [Required]
         public string Pension { get; set; }
 
+        [Required]
+        public string SeguridadSocial { get; set; }
+
+        [Required]
+        public string Planilla { get; set; }
+
+        public string CertificadoMedicoLaboral { get; set; }
+
+
         [ForeignKey("Trabajadores")]
         public int Trabajador { get; set; }
 

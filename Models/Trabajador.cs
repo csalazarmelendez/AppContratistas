@@ -29,6 +29,9 @@ namespace Contratistas.Models
         [StringLength(50, ErrorMessage = "El {0} debe ser al menos {2} y máximo {1} caracteres", MinimumLength = 3)]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Edad obligatoria")]
+        public string FechaNacimiento { get; set; }
+
         [Required(ErrorMessage = "Teléfono es obligatorio")]
         [StringLength(25, ErrorMessage = "El {0} debe ser al menos {2} y máximo {1} caracteres", MinimumLength = 3)]
         public string Telefono { get; set; }
@@ -55,9 +58,19 @@ namespace Contratistas.Models
         public string PensionValida { get; set; }
 
         [Required]
+        public string SeguridadSocialValida { get; set; }
+
+        [Required]
+        public string PlanillaValida { get; set; }
+
+        public string CertificadoMedicoLaboralValido { get; set; }
+
+        [Required]
         public string EstadoIngreso { get; set; }
 
         public string FechaIngresoObra { get; set; }
+
+        public string FechaFinObra { get; set; }
 
         public string Observacion { get; set; }
 
