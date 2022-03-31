@@ -58,13 +58,13 @@
             <div class="form-group">
                 <label asp-for="Cedula" class="control-label">Trabajador</label>
                 <input asp-for="Cedula" type="number" class="form-control" value="@ViewBag.Trabajador.Cedula" placeholder="Cédula" disabled />
-                
+
 
                 <input asp-for="Nombre" name="nombre" class="form-control" value="@ViewBag.Trabajador.Nombre" placeholder="Nombre trabajador">
-                
+
 
                 <input asp-for="Apellido" name="apellido" class="form-control" value="@ViewBag.Trabajador.Apellido" placeholder="Apellidos trabajador">
-                
+
             </div>
 
             @if (@ViewBag.Subcontratista != null)
@@ -82,31 +82,31 @@
             <div class="form-group">
                 <label asp-for="Email" class="control-label">Email</label>
                 <input asp-for="Email" name="email" class="form-control" value="@ViewBag.Trabajador.Email" placeholder="Email@email.com" />
-                
+
             </div>
 
             <div class="form-group">
                 <label asp-for="Telefono" class="control-label">Télefono</label>
                 <input asp-for="Telefono" name="telefono" type="number" value="@ViewBag.Trabajador.Telefono" class="form-control" placeholder="Teléfono" />
-                
+
             </div>
 
             <div class="form-group">
                 <label asp-for="PersonaContacto" class="control-label">Persona de contacto</label>
                 <input asp-for="PersonaContacto" name="persona" class="form-control" value="@ViewBag.Trabajador.PersonaContacto" placeholder="Nombre y apellido" />
-                
+
             </div>
 
             <div class="form-group">
                 <label asp-for="TelefonoContacto" class="control-label">Teléfono del contacto</label>
                 <input asp-for="TelefonoContacto" name="telefonocontacto" type="number" class="form-control" value="@ViewBag.Trabajador.TelefonoContacto" placeholder="Teléfono del contacto" />
-                
+
             </div>
 
             <div class="form-group">
                 <label asp-for="Ciudad" class="control-label">Ciudad</label>
                 <input asp-for="Ciudad" value="@ViewBag.Trabajador.Ciudad" class="form-control" disabled></input>
-                
+
             </div>
 
             <div class="form-group">
@@ -194,13 +194,49 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="SeguridadSocial" class="control-label">Archivo seguridad social</label>
+                        <div class="custom-file">
+                            <input asp-for="SeguridadSocial" name="seguridad" class="form-control custom-file-input" />
+                            <label class="custom-file-label">Selecciona un archivo</label>
+                            @if (ViewBag.Trabajador.SeguridadValida != "Válida")
+                            {
+                                <p class="text-danger">*La seguridad social no es válida. Por favor cargar seguridad social válida*</p>
+                            }
+                            else
+                            {
+                                <p class="text-success">Seguridad social válida</p>
+                            }
+                        </div>
+                    </div>
+                </div>
 
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Planilla" class="control-label">Archivo planilla</label>
+                        <div class="custom-file">
+                            <input asp-for="Planilla" name="planilla" class="form-control custom-file-input" />
+                            <label class="custom-file-label">Selecciona un archivo</label>
+                            @if (ViewBag.Trabajador.PlanillaValida != "Válida")
+                            {
+                                <p class="text-danger">*La planilla no es válida. Por favor cargar archivo de planilla válido*</p>
+                            }
+                            else
+                            {
+                                <p class="text-success">Planilla válida</p>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label">Observación del administrador</label>
-                <textarea  class="form-control" disabled>@ViewBag.Trabajador.Observacion</textarea>
+                <textarea class="form-control" disabled>@ViewBag.Trabajador.Observacion</textarea>
             </div>
 
             <div class="form-group">

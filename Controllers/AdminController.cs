@@ -223,6 +223,7 @@ namespace Contratistas.Controllers
 
                 @ViewBag.EstadoIngreso = trabajador.EstadoIngreso;
                 @ViewBag.FechaIngreso = trabajador.FechaIngresoObra;
+                @ViewBag.FechaFin = trabajador.FechaFinObra;
                 @ViewBag.Observacion = trabajador.Observacion;
                 @ViewBag.Obras = obras;
                 if (trabajador.EstadoIngreso == "No autorizado")
@@ -359,8 +360,12 @@ namespace Contratistas.Controllers
             string eps = Request.Form["eps"].ToString();
             string arl = Request.Form["arl"].ToString();
             string pension = Request.Form["pension"].ToString();
+            string seguridad = Request.Form["seguridad"].ToString();
+            string planilla = Request.Form["planilla"].ToString();
+            string cml = Request.Form["cml"].ToString();
             string ingreso = Request.Form["ingreso"].ToString();
             string fecha = Request.Form["fecha"].ToString();
+            string fechaFin = Request.Form["fechaFin"].ToString();
             string observacion = Request.Form["observacion"].ToString();
 
             var trabajador = _context.Trabajador.Find(idtrabajador);
@@ -372,9 +377,16 @@ namespace Contratistas.Controllers
             validacion = (arl == "on") ? "Válida" : "No válida";
             trabajador.ARLValida = validacion;
             validacion = (pension == "on") ? "Válida" : "No válida";
-            trabajador.PensionValida = validacion; 
+            trabajador.PensionValida = validacion;
+            validacion = (seguridad == "on") ? "Válida" : "No válida";
+            trabajador.SeguridadSocialValida = validacion;
+            validacion = (planilla == "on") ? "Válida" : "No válida";
+            trabajador.PlanillaValida = validacion;
+            validacion = (cml == "on") ? "Válida" : "No válida";
+            trabajador.CertificadoMedicoLaboralValido = validacion;
             trabajador.EstadoIngreso = ingreso;
             trabajador.FechaIngresoObra = fecha;
+            trabajador.FechaFinObra = fechaFin;
             trabajador.Observacion = observacion;
             _context.Trabajador.Update(trabajador);
             _context.SaveChanges();
