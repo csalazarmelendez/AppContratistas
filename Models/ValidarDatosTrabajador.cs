@@ -28,6 +28,9 @@ namespace Contratistas.Models
         [StringLength(50, ErrorMessage = "El {0} debe ser al menos {2} y máximo {1} caracteres", MinimumLength = 3)]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Fecha de nacimiento es obligatoria")]
+        public string FechaNacimiento { get; set; }
+
         [Required(ErrorMessage = "Teléfono es obligatorio")]
         [StringLength(25, ErrorMessage = "El {0} debe ser al menos {2} y máximo {1} caracteres", MinimumLength = 3)]
         public string Telefono { get; set; }
@@ -54,6 +57,14 @@ namespace Contratistas.Models
 
         [Required(ErrorMessage = "Archivo pensión es obligatorio")]
         public IFormFile Pension { get; set; }
+
+        [Required(ErrorMessage = "Archivo de seguridad social es obligatorio")]
+        public IFormFile SeguridadSocial { get; set; }
+
+        [Required(ErrorMessage = "Archivo de planilla es obligatorio")]
+        public IFormFile Planilla { get; set; }
+
+        public IFormFile CertificadoMedicoLaboral { get; set; }
     }
 }
 

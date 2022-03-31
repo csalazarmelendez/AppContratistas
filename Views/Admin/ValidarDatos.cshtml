@@ -59,155 +59,213 @@
 
             @if (@ViewBag.Cedula != null)
             {
-                <form method="post" asp-action="GuardarDatos" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label class="control-label">Trabajador</label>
-                        <input type="number" class="form-control" value="@ViewBag.Cedula" disabled />
+        <form method="post" asp-action="GuardarDatos" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Trabajador</label>
+                <input type="number" class="form-control" value="@ViewBag.Cedula" disabled />
 
-                        <input class="form-control" value="@ViewBag.Nombre" disabled>
-                        <input class="form-control" value="@ViewBag.Apellido" disabled>
-                    </div>
+                <input class="form-control" value="@ViewBag.Nombre" disabled>
+                <input class="form-control" value="@ViewBag.Apellido" disabled>
+            </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Contratista</label>
-                        <input class="form-control" value="@ViewBag.NitContratista" disabled />
+            <div class="form-group">
+                <label class="control-label">Contratista</label>
+                <input class="form-control" value="@ViewBag.NitContratista" disabled />
 
-                        <input name="contratista" class="form-control" value="@ViewBag.Contratista" disabled>
-                    </div>
+                <input name="contratista" class="form-control" value="@ViewBag.Contratista" disabled>
+            </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Subcontratista</label>
-                        <input class="form-control" value="@ViewBag.NitSubcontratista" disabled />
+            <div class="form-group">
+                <label class="control-label">Subcontratista</label>
+                <input class="form-control" value="@ViewBag.NitSubcontratista" disabled />
 
-                        <input name="subcontratista" class="form-control" value="@ViewBag.Subcontratista" disabled>
-                    </div>
+                <input name="subcontratista" class="form-control" value="@ViewBag.Subcontratista" disabled>
+            </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Email trabajador</label>
-                        <input class="form-control" value="@ViewBag.Email" disabled />
-                    </div>
+            <div class="form-group">
+                <label class="control-label">Email trabajador</label>
+                <input class="form-control" value="@ViewBag.Email" disabled />
+            </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Teléfono trabajador</label>
-                        <input class="form-control" value="@ViewBag.Telefono" disabled />
-                    </div>
+            <div class="form-group">
+                <label class="control-label">Teléfono trabajador</label>
+                <input class="form-control" value="@ViewBag.Telefono" disabled />
+            </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Persona de contacto</label>
-                        <input class="form-control" value="@ViewBag.PersonaContacto" disabled />
-                    </div>
+            <div class="form-group">
+                <label class="control-label">Persona de contacto</label>
+                <input class="form-control" value="@ViewBag.PersonaContacto" disabled />
+            </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Teléfono persona de contacto</label>
-                        <input class="form-control" value="@ViewBag.TelefonoContacto" disabled />
-                    </div>
+            <div class="form-group">
+                <label class="control-label">Teléfono persona de contacto</label>
+                <input class="form-control" value="@ViewBag.TelefonoContacto" disabled />
+            </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Ciudad</label>
-                        <input class="form-control" value="@ViewBag.Ciudad" disabled />
-                    </div>
+            <div class="form-group">
+                <label class="control-label">Ciudad</label>
+                <input class="form-control" value="@ViewBag.Ciudad" disabled />
+            </div>
 
 
-                    <div class="form-group">
-                        <label class="control-label">Obra</label>
-                        @foreach (var obra in ViewBag.Obras)
-                        {
-                            <input class="form-control" value="@obra" disabled />
-                        }
-                    </div>
+            <div class="form-group">
+                <label class="control-label">Obra</label>
+                @foreach (var obra in ViewBag.Obras)
+                {
+                    <input class="form-control" value="@obra" disabled />
+                }
+            </div>
 
-                    <div class="form-group">
-                        <label class="control-label"><b>¿La cédula es válida?</b></label>    
-                        @if (ViewBag.CedulaValida == "Válida")
-                        {
-                            <input name="cedula" type="checkbox" checked />
-                        }
-                        else
-                        {
-                            <input name="cedula" type="checkbox" />
-                        }
-                    </div>
-                    <div class="form-group">
-                        <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.CedulaImg" class="btn btn-primary">Descargar Cédula</a>
-                        <!--<img src="Url.Content(ViewBag.CedulaImg)" alt="Sample Image" width="1000px" />-->
-                    </div>
-                     
+            <div class="form-group">
+                <label class="control-label"><b>¿La cédula es válida?</b></label>
+                @if (ViewBag.CedulaValida == "Válida")
+                {
+                    <input name="cedula" type="checkbox" checked />
+                }
+                else
+                {
+                    <input name="cedula" type="checkbox" />
+                }
+            </div>
+            <div class="form-group">
+                <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.CedulaImg" class="btn btn-primary">Descargar Cédula</a>
+                <!--<img src="Url.Content(ViewBag.CedulaImg)" alt="Sample Image" width="1000px" />-->
+            </div>
 
-                    <div class="form-group">
-                        <label class="control-label"><b>¿La EPS es válida?</b></label>
-                        @if (ViewBag.EPSValida == "Válida")
-                        {
-                            <input name="eps" type="checkbox" checked />
-                        }
-                        else
-                        {
-                            <input name="eps" type="checkbox" />
-                        }
-                    </div>
-                    <div class="form-group">
-                        <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.EPS" class="btn btn-primary">Descargar EPS</a>
-                        <!--<img src="Url.Content(ViewBag.EPS)" alt="Sample Image" width="1000px" />-->
-                    </div>
 
-                    <div class="form-group">
-                        <label class="control-label"><b>¿La ARL es válida?</b></label>
-                        @if (ViewBag.ARLValida == "Válida")
-                        {
-                            <input name="arl" type="checkbox" checked />
-                        }
-                        else
-                        {
-                            <input name="arl" type="checkbox" />
-                        }
-                    </div>
+            <div class="form-group">
+                <label class="control-label"><b>¿La EPS es válida?</b></label>
+                @if (ViewBag.EPSValida == "Válida")
+                {
+                    <input name="eps" type="checkbox" checked />
+                }
+                else
+                {
+                    <input name="eps" type="checkbox" />
+                }
+            </div>
+            <div class="form-group">
+                <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.EPS" class="btn btn-primary">Descargar EPS</a>
+                <!--<img src="Url.Content(ViewBag.EPS)" alt="Sample Image" width="1000px" />-->
+            </div>
 
-                    <div class="form-group">
-                        <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.ARL" class="btn btn-primary">Descargar ARL</a>
-                        <!--<img src="Url.Content(ViewBag.ARL)" alt="Sample Image" width="1000px" />-->
-                    </div>
+            <div class="form-group">
+                <label class="control-label"><b>¿La ARL es válida?</b></label>
+                @if (ViewBag.ARLValida == "Válida")
+                {
+                    <input name="arl" type="checkbox" checked />
+                }
+                else
+                {
+                    <input name="arl" type="checkbox" />
+                }
+            </div>
 
-                    <div class="form-group">
-                        <label class="control-label"><b>¿El documento de pensión es válido?</b></label>
+            <div class="form-group">
+                <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.ARL" class="btn btn-primary">Descargar ARL</a>
+                <!--<img src="Url.Content(ViewBag.ARL)" alt="Sample Image" width="1000px" />-->
+            </div>
 
-                        @if (ViewBag.PensionValida == "Válida")
-                        {
-                            <input name="pension" type="checkbox" checked />
-                        }
-                        else
-                        {
-                            <input name="pension" type="checkbox" />
-                        }
-                    </div>
+            <div class="form-group">
+                <label class="control-label"><b>¿El documento de pensión es válido?</b></label>
 
-                    <div class="form-group">
-                        <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.Pension" class="btn btn-primary">Descargar Pension</a>
-                        <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
-                    </div>
+                @if (ViewBag.PensionValida == "Válida")
+                {
+                    <input name="pension" type="checkbox" checked />
+                }
+                else
+                {
+                    <input name="pension" type="checkbox" />
+                }
+            </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Estado de ingreso</label>
-                        <select name="ingreso" class="form-control">
-                            <!--Traer las obras-->
-                            <option name="ingreso">@ViewBag.EstadoIngreso</option>
-                            <option name="ingreso">@ViewBag.NotEstadoIngreso</option>
-                        </select>
-                    </div>
+            <div class="form-group">
+                <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.Pension" class="btn btn-primary">Descargar Pension</a>
+                <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
+            </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Fecha de ingreso a la obra</label>
-                        <input name="fecha" class="form-control" type="date" value="@ViewBag.FechaIngreso" />
-                    </div>
+            <div class="form-group">
+                <label class="control-label"><b>¿El documento de seguridad social es válido?</b></label>
 
-                    <div class="form-group">
-                        <label class="control-label">Observaciones</label>
-                        <textarea name="observacion" class="form-control">@ViewBag.Observacion</textarea>
-                    </div>
+                @if (ViewBag.SeguridadValida == "Válida")
+                {
+                    <input name="seguridad" type="checkbox" checked />
+                }
+                else
+                {
+                    <input name="seguridad" type="checkbox" />
+                }
+            </div>
 
-                    <div class="form-group">
-                        <input type="submit" value="Guardar datos" class="btn btn-primary">
-                    </div>
-                </form>
+            <div class="form-group">
+                <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.Seguridad" class="btn btn-primary">Descargar seguridad social</a>
+                <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"><b>¿La planilla es válida?</b></label>
+
+                @if (ViewBag.PlanillaValida == "Válida")
+                {
+                    <input name="planilla" type="checkbox" checked />
+                }
+                else
+                {
+                    <input name="planilla" type="checkbox" />
+                }
+            </div>
+
+            <div class="form-group">
+                <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.Planilla" class="btn btn-primary">Descargar Planilla</a>
+                <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
+            </div>
+
+            @if (ViewBag.CML != null)
+            {
+                <div class="form-group">
+                    <label class="control-label"><b>¿El certificado médico laboral es válido?</b></label>
+
+                    @if (ViewBag.CMLValido == "Válida")
+                    {
+                        <input name="cml" type="checkbox" checked />
+                    }
+                    else
+                    {
+                        <input name="cml" type="checkbox" />
+                    }
+                </div>
+
+                <div class="form-group">
+                    <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.CML" class="btn btn-primary">Descargar certificado médico laboral</a>
+                    <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
+                </div>
+            }
+
+
+            <div class="form-group">
+                <label class="control-label">Estado de ingreso</label>
+                <select name="ingreso" class="form-control">
+                    <!--Traer las obras-->
+                    <option name="ingreso">@ViewBag.EstadoIngreso</option>
+                    <option name="ingreso">@ViewBag.NotEstadoIngreso</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Fecha de ingreso a la obra</label>
+                <input name="fecha" class="form-control" type="date" value="@ViewBag.FechaIngreso" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Observaciones</label>
+                <textarea name="observacion" class="form-control">@ViewBag.Observacion</textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Guardar datos" class="btn btn-primary">
+            </div>
+        </form>
             }
             else
             {

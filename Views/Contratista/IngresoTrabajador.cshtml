@@ -68,8 +68,14 @@
                 </div>
 
                 <div class="form-group">
+                    <label asp-for="FechaNacimiento" class="control-label">Fecha de nacimiento</label>
+                    <input asp-for="FechaNacimiento" class="form-control" type="date" id="fecha" onclick="CML()" onkeyup="CML()" onmousemove="CML()"/>
+                    <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
                     <label asp-for="Telefono" class="control-label">Télefono</label>
-                    <input asp-for="Telefono" type="number" class="form-control" placeholder="Teléfono" />
+                    <input asp-for="Telefono" type="number" class="form-control" placeholder="Teléfono" onclick="CML()"/>
                     <span asp-validation-for="Telefono" class="text-danger"></span>
                 </div>
 
@@ -150,6 +156,33 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label asp-for="SeguridadSocial" class="control-label">Archivo seguridad social</label>
+                    <div class="custom-file">
+                        <input asp-for="SeguridadSocial" class="form-control custom-file-input" />
+                        <label class="custom-file-label">Selecciona un archivo</label>
+                        <span asp-validation-for="SeguridadSocial" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Planilla" class="control-label">Archivo planilla</label>
+                    <div class="custom-file">
+                        <input asp-for="Planilla" class="form-control custom-file-input" />
+                        <label class="custom-file-label">Selecciona un archivo</label>
+                        <span asp-validation-for="Planilla" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div id="error" class="form-group ocultar" style="display: none" role="alert">
+                    <label asp-for="CertificadoMedicoLaboral" class="control-label">Archivo certificado médico laboral *Mayor 60 años*</label>
+                    <div class="custom-file">
+                        <input asp-for="CertificadoMedicoLaboral" class="form-control custom-file-input" />
+                        <label class="custom-file-label">Selecciona un archivo</label>
+                        <span asp-validation-for="CertificadoMedicoLaboral" class="text-danger"></span>
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Ingresar trabajador</button>
@@ -207,6 +240,30 @@
             document.getElementById("cod").value = codigo;
             document.getElementById("obra").value = nombre;
             document.getElementById("obras").value = nombre;
+        }
+
+        //Solicitar Certificado Medico Laboral
+        function CML() {
+            let hoy = new Date()
+            let fechaNacimiento = new Date(document.getElementById("fecha").value)
+            let edad = hoy.getFullYear() - fechaNacimiento.getFullYear()
+            let diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth()
+            if (
+                diferenciaMeses < 0 ||
+                (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
+            ) {
+                edad--
+            }
+            if (edad > 60) {
+                error.style.display = "block";
+                if (ok.style.display !== "none") {
+                    ok.style.display = "none";
+                }
+            } else {
+
+                error.style.display = "none";
+                ok.style.display = "block";
+            }
         }
     </script>
 </body>

@@ -199,9 +199,34 @@ namespace Contratistas.Controllers
             var trabajadorExiste = _context.Trabajador.Where(s => s.Cedula == validarDatosTrabajador.Cedula).ToList();
             if (ModelState.IsValid && trabajadorExiste.Count == 0)
             {
+                string fecha = validarDatosTrabajador.FechaNacimiento;
+                string año = fecha.Substring(0, 4);
+                string mes = fecha.Substring(5, 2);
+                string dia = fecha.Substring(8, 2);
+                int castAño = Convert.ToInt32(año);
+                int castMes = Convert.ToInt32(mes);
+                int castDia = Convert.ToInt32(dia);
+
+                DateTime nacimiento = new DateTime(castAño, castMes, castDia);
+                int edad = DateTime.Today.AddTicks(-nacimiento.Ticks).Year - 1;
+                Console.WriteLine(edad);
                 //Guardar los documentos
+                bool necesarioCML = false;
+                bool validoCML = false;
+                if (edad > 60)
+                {
+                    necesarioCML = true;
+                }
+                else
+                {
+                    validoCML = true;
+                }
+                if (necesarioCML && validarDatosTrabajador.CertificadoMedicoLaboral != null)
+                {
+                    validoCML = true;
+                }
                 string guidImage = null;
-                if (validarDatosTrabajador.CedulaImg != null && validarDatosTrabajador.EPS != null && validarDatosTrabajador.ARL != null && validarDatosTrabajador.Pension != null)
+                if (validarDatosTrabajador.CedulaImg != null && validarDatosTrabajador.EPS != null && validarDatosTrabajador.ARL != null && validarDatosTrabajador.Pension != null && validarDatosTrabajador.SeguridadSocial != null && validarDatosTrabajador.Planilla != null && validoCML)
                 {
                     string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Documentos"); //borrar linea filePath = filePath + @"\Documentos";
                     /*string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -236,6 +261,15 @@ namespace Contratistas.Controllers
                     string pension = ced + "_pension" + validarDatosTrabajador.Pension.FileName.Substring(validarDatosTrabajador.Pension.FileName.Length - 4);
                     rutaDefinitiva = Path.Combine(filePath, pension);
                     validarDatosTrabajador.Pension.CopyTo(new FileStream(rutaDefinitiva, FileMode.Create));
+                    //Guarda la Seguridad social
+                    string seguridad = ced + "_seguridad" + validarDatosTrabajador.SeguridadSocial.FileName.Substring(validarDatosTrabajador.SeguridadSocial.FileName.Length - 4);
+                    rutaDefinitiva = Path.Combine(filePath, seguridad);
+                    validarDatosTrabajador.SeguridadSocial.CopyTo(new FileStream(rutaDefinitiva, FileMode.Create));
+                    //Guarda la planilla
+                    string planilla = ced + "_planilla" + validarDatosTrabajador.Planilla.FileName.Substring(validarDatosTrabajador.Planilla.FileName.Length - 4);
+                    rutaDefinitiva = Path.Combine(filePath, planilla);
+                    validarDatosTrabajador.Planilla.CopyTo(new FileStream(rutaDefinitiva, FileMode.Create));
+
 
                     //Crear subcontratista
                     string nitSubcontratista = Request.Form["nitSubcontratista"].ToString();
@@ -259,6 +293,7 @@ namespace Contratistas.Controllers
                     trabajador.Cedula = validarDatosTrabajador.Cedula;
                     trabajador.Nombre = validarDatosTrabajador.Nombre;
                     trabajador.Apellido = validarDatosTrabajador.Apellido;
+                    trabajador.FechaNacimiento = validarDatosTrabajador.FechaNacimiento;
                     trabajador.Email = validarDatosTrabajador.Email;
                     trabajador.Telefono = validarDatosTrabajador.Telefono;
                     trabajador.PersonaContacto = validarDatosTrabajador.PersonaContacto;
@@ -268,6 +303,9 @@ namespace Contratistas.Controllers
                     trabajador.EPSValida = "No válida";
                     trabajador.ARLValida = "No válida";
                     trabajador.PensionValida = "No válida";
+                    trabajador.SeguridadSocialValida = "No válida";
+                    trabajador.PlanillaValida = "No válida";
+                    trabajador.CertificadoMedicoLaboralValido = "No válida";
                     trabajador.EstadoIngreso = validarDatosTrabajador.EstadoIngreso;
                     trabajador.IdContratista = contratistaid;
                     if (tieneSubcontratista)
@@ -284,6 +322,16 @@ namespace Contratistas.Controllers
                     int idTrabajador = getTrabajador[0].Id;
                     Documento documento = new Documento();
                     string rutawwwroot = "~/Documentos/" + contratista.NIT + "/";
+                    if (necesarioCML)
+                    {
+                        //Guarda la Seguridad social
+                        string cml = ced + "_seguridad" + validarDatosTrabajador.CertificadoMedicoLaboral.FileName.Substring(validarDatosTrabajador.CertificadoMedicoLaboral.FileName.Length - 4);
+                        rutaDefinitiva = Path.Combine(filePath, cml);
+                        validarDatosTrabajador.CertificadoMedicoLaboral.CopyTo(new FileStream(rutaDefinitiva, FileMode.Create));
+
+                        documento.CertificadoMedicoLaboral = Path.Combine(rutawwwroot, cml);
+                    }
+                    
                     /*documento.Cedula = Path.Combine(filePath, cedula);
                     documento.EPS = Path.Combine(filePath, eps);
                     documento.ARL = Path.Combine(filePath, arl);
@@ -292,6 +340,9 @@ namespace Contratistas.Controllers
                     documento.EPS = Path.Combine(rutawwwroot, eps);
                     documento.ARL = Path.Combine(rutawwwroot, arl);
                     documento.Pension = Path.Combine(rutawwwroot, pension);
+                    documento.SeguridadSocial = Path.Combine(rutawwwroot, seguridad);
+                    documento.Planilla = Path.Combine(rutawwwroot, planilla);
+
                     documento.Trabajador = idTrabajador;
                     _context.Documento.Add(documento);
                     _context.SaveChanges();

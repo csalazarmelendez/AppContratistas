@@ -208,12 +208,19 @@ namespace Contratistas.Controllers
                 @ViewBag.EPSValida = trabajador.EPSValida;
                 @ViewBag.ARLValida = trabajador.ARLValida;
                 @ViewBag.PensionValida = trabajador.PensionValida;
+                @ViewBag.SeguridadValida = trabajador.SeguridadSocialValida;
+                @ViewBag.PlanillaValida = trabajador.PlanillaValida;
+                @ViewBag.CMLValido = trabajador.CertificadoMedicoLaboralValido;
                 @ViewBag.Contratista = contratista.Razon_social;
                 @ViewBag.NitContratista = contratista.NIT;
                 @ViewBag.CedulaImg = documento.Cedula;
                 @ViewBag.EPS = documento.EPS;
                 @ViewBag.ARL = documento.ARL;
                 @ViewBag.Pension = documento.Pension;
+                @ViewBag.Seguridad = documento.SeguridadSocial;
+                @ViewBag.Planilla = documento.Planilla;
+                @ViewBag.Pension = documento.CertificadoMedicoLaboral;
+
                 @ViewBag.EstadoIngreso = trabajador.EstadoIngreso;
                 @ViewBag.FechaIngreso = trabajador.FechaIngresoObra;
                 @ViewBag.Observacion = trabajador.Observacion;
