@@ -86,6 +86,11 @@
             </div>
 
             <div class="form-group">
+                <label asp-for="FechaNacimiento" class="control-label">Fecha de nacimiento</label>
+                <input asp-for="FechaNacimiento" name="fechaNacimiento" class="form-control" value="@ViewBag.Trabajador.FechaNacimiento" disabled />
+            </div>
+
+            <div class="form-group">
                 <label asp-for="Telefono" class="control-label">Télefono</label>
                 <input asp-for="Telefono" name="telefono" type="number" value="@ViewBag.Trabajador.Telefono" class="form-control" placeholder="Teléfono" />
 
@@ -125,10 +130,10 @@
                     <div class="form-group">
                         <label asp-for="CedulaImg" class="control-label">Archivo cédula</label>
                         <div class="custom-file">
-                            <input asp-for="CedulaImg" name="cedula" class="form-control custom-file-input" />
-                            <label class="custom-file-label">Selecciona un archivo</label>
                             @if (ViewBag.Trabajador.CedulaValida != "Válida")
                             {
+                                <input asp-for="CedulaImg" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Selecciona un archivo</label>
                                 <p class="text-danger">*La cédula no es válida. Por favor cargar cédula válida*</p>
                             }
                             else
@@ -143,10 +148,10 @@
                     <div class="form-group">
                         <label asp-for="EPS" class="control-label">Archivo EPS</label>
                         <div class="custom-file">
-                            <input asp-for="EPS" name="eps" class="form-control custom-file-input" />
-                            <label class="custom-file-label">Selecciona un archivo</label>
                             @if (ViewBag.Trabajador.EPSValida != "Válida")
                             {
+                                <input asp-for="EPS" name="eps" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Selecciona un archivo</label>
                                 <p class="text-danger">*La EPS no es válida. Por favor cargar EPS válida*</p>
                             }
                             else
@@ -167,6 +172,7 @@
                             <label class="custom-file-label">Selecciona un archivo</label>
                             @if (ViewBag.Trabajador.ARLValida != "Válida")
                             {
+
                                 <p class="text-danger">*La ARL no es válida. Por favor cargar ARL válida*</p>
                             }
                             else
@@ -181,10 +187,10 @@
                     <div class="form-group">
                         <label asp-for="Pension" class="control-label">Archivo pension</label>
                         <div class="custom-file">
-                            <input asp-for="Pension" name="pension" class="form-control custom-file-input" />
-                            <label class="custom-file-label">Selecciona un archivo</label>
                             @if (ViewBag.Trabajador.PensionValida != "Válida")
                             {
+                                <input asp-for="Pension" name="pension" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Selecciona un archivo</label>
                                 <p class="text-danger">*El archivo de pensión no es válida. Por favor cargar archivo de pensión válido*</p>
                             }
                             else
@@ -201,10 +207,11 @@
                     <div class="form-group">
                         <label asp-for="SeguridadSocial" class="control-label">Archivo seguridad social</label>
                         <div class="custom-file">
-                            <input asp-for="SeguridadSocial" name="seguridad" class="form-control custom-file-input" />
-                            <label class="custom-file-label">Selecciona un archivo</label>
-                            @if (ViewBag.Trabajador.SeguridadValida != "Válida")
+
+                            @if (ViewBag.Trabajador.SeguridadSocialValida != "Válida")
                             {
+                                <input asp-for="SeguridadSocial" name="seguridad" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Selecciona un archivo</label>
                                 <p class="text-danger">*La seguridad social no es válida. Por favor cargar seguridad social válida*</p>
                             }
                             else
@@ -219,10 +226,10 @@
                     <div class="form-group">
                         <label asp-for="Planilla" class="control-label">Archivo planilla</label>
                         <div class="custom-file">
-                            <input asp-for="Planilla" name="planilla" class="form-control custom-file-input" />
-                            <label class="custom-file-label">Selecciona un archivo</label>
                             @if (ViewBag.Trabajador.PlanillaValida != "Válida")
                             {
+                                <input asp-for="Planilla" name="planilla" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Selecciona un archivo</label>
                                 <p class="text-danger">*La planilla no es válida. Por favor cargar archivo de planilla válido*</p>
                             }
                             else
