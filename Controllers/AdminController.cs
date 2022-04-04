@@ -221,7 +221,7 @@ namespace Contratistas.Controllers
                 @ViewBag.Pension = documento.Pension;
                 @ViewBag.Seguridad = documento.SeguridadSocial;
                 @ViewBag.Planilla = documento.Planilla;
-                @ViewBag.Pension = documento.CertificadoMedicoLaboral;
+                @ViewBag.CML = documento.CertificadoMedicoLaboral;
 
                 @ViewBag.EstadoIngreso = trabajador.EstadoIngreso;
                 @ViewBag.FechaIngreso = trabajador.FechaIngresoObra;
@@ -410,8 +410,15 @@ namespace Contratistas.Controllers
 
             trabajador.EstadoIngreso = ingreso;
             trabajador.FechaIngresoObra = fecha;
-            trabajador.FechaFinObra = fechaFin;
             trabajador.Observacion = observacion;
+            if (fechaFin != null)
+            {
+                trabajador.FechaFinObra = fechaFin;
+                HistorialFechasPlanilla registro = new HistorialFechasPlanilla();
+                registro.Fecha = fechaFin;
+                registro.IdTrabajador = trabajador.Id;
+                _context.HistorialFechasPlanilla.Add(registro);
+            }
             _context.Trabajador.Update(trabajador);
             _context.SaveChanges();
             return RedirectToAction("ValidarDatos", "Admin", new { adminid = adminid, idtrabajador = idtrabajador });

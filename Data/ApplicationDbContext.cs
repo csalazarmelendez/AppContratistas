@@ -25,5 +25,6 @@ namespace Contratistas.Data
         public DbSet<Obra> Obra { get; set; }
         public DbSet<TrabajadorXObra> TrabajadorXObra { get; set; }
         public DbSet<SolicitudObra> SolicitudObra { get; set; }
+        public DbSet<HistorialFechasPlanilla> HistorialFechasPlanilla { get; set; }
     }
 }

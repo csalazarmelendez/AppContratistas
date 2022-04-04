@@ -119,11 +119,13 @@ namespace Contratistas.Controllers
                     @ViewBag.Obras = obras;
                     @ViewBag.Trabajador = getTrabajador[0];
                     @ViewBag.Subcontratista = subcontratista;
+                    
                 }
                 else
                 {
                     @ViewBag.Trabajador = null;
                 }
+                @ViewBag.Trabajadores = _context.Trabajador.Where(s => s.Cedula.Contains(cedula) && s.IdContratista == contratistaid).ToList();
             }
             else if (actualizarid != null)
             {
@@ -322,7 +324,7 @@ namespace Contratistas.Controllers
                 _context.SaveChanges();
                 _context.Documento.Update(documento);
                 _context.SaveChanges();
-                TempData["mensaje1"] = "Se actualizaron los datos del trabajador";
+                TempData["mensaje1"] = "Se actualizaron los datos del trabajador";  
                 return RedirectToAction("ModificarDatosTrabajador", "Contratista", new { contratistaid = contratista.Id });
             }
             else
