@@ -130,11 +130,17 @@
                     <div class="form-group">
                         <label asp-for="CedulaImg" class="control-label">Archivo cédula</label>
                         <div class="custom-file">
-                            @if (ViewBag.Trabajador.CedulaValida != "Válida")
+                            @if (ViewBag.Trabajador.CedulaValida == "No valida")
                             {
                                 <input asp-for="CedulaImg" class="form-control custom-file-input" />
                                 <label class="custom-file-label">Selecciona un archivo</label>
                                 <p class="text-danger">*La cédula no es válida. Por favor cargar cédula válida*</p>
+                            }
+                            else if (ViewBag.Trabajador.CedulaValida == "Pendiente")
+                            {
+                                <input asp-for="CedulaImg" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Selecciona un archivo</label>
+                                <p class="text-warning">*La cédula está pendiente a revisar*</p>
                             }
                             else
                             {
@@ -148,11 +154,17 @@
                     <div class="form-group">
                         <label asp-for="EPS" class="control-label">Archivo EPS</label>
                         <div class="custom-file">
-                            @if (ViewBag.Trabajador.EPSValida != "Válida")
+                            @if (ViewBag.Trabajador.EPSValida == "No valida")
                             {
-                                <input asp-for="EPS" name="eps" class="form-control custom-file-input" />
+                                <input asp-for="EPS" class="form-control custom-file-input" />
                                 <label class="custom-file-label">Selecciona un archivo</label>
                                 <p class="text-danger">*La EPS no es válida. Por favor cargar EPS válida*</p>
+                            }
+                            else if (ViewBag.Trabajador.EPSValida == "Pendiente")
+                            {
+                                <input asp-for="EPS" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Selecciona un archivo</label>
+                                <p class="text-warning">*La EPS está pendiente a revisar*</p>
                             }
                             else
                             {
@@ -168,12 +180,18 @@
                     <div class="form-group">
                         <label asp-for="ARL" class="control-label">Archivo ARL</label>
                         <div class="custom-file">
-                            <input asp-for="ARL" name="arl" class="form-control custom-file-input" />
-                            <label class="custom-file-label">Selecciona un archivo</label>
-                            @if (ViewBag.Trabajador.ARLValida != "Válida")
-                            {
 
+                            @if (ViewBag.Trabajador.ARLValida == "No valida")
+                            {
+                                <input asp-for="ARL" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Selecciona un archivo</label>
                                 <p class="text-danger">*La ARL no es válida. Por favor cargar ARL válida*</p>
+                            }
+                            else if (ViewBag.Trabajador.ARLValida == "Pendiente")
+                            {
+                                <input asp-for="ARL" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Selecciona un archivo</label>
+                                <p class="text-warning">*La ARL está pendiente a revisar*</p>
                             }
                             else
                             {
@@ -187,11 +205,17 @@
                     <div class="form-group">
                         <label asp-for="Pension" class="control-label">Archivo pension</label>
                         <div class="custom-file">
-                            @if (ViewBag.Trabajador.PensionValida != "Válida")
+                            @if (ViewBag.Trabajador.PensionValida == "No valida")
                             {
-                                <input asp-for="Pension" name="pension" class="form-control custom-file-input" />
+                                <input asp-for="Pension" class="form-control custom-file-input" />
                                 <label class="custom-file-label">Selecciona un archivo</label>
                                 <p class="text-danger">*El archivo de pensión no es válida. Por favor cargar archivo de pensión válido*</p>
+                            }
+                            else if (ViewBag.Trabajador.PensionValida == "Pendiente")
+                            {
+                                <input asp-for="Pension" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Selecciona un archivo</label>
+                                <p class="text-warning">*El archivo de pensión está pendiente a revisar*</p>
                             }
                             else
                             {
@@ -208,11 +232,17 @@
                         <label asp-for="SeguridadSocial" class="control-label">Archivo seguridad social</label>
                         <div class="custom-file">
 
-                            @if (ViewBag.Trabajador.SeguridadSocialValida != "Válida")
+                            @if (ViewBag.Trabajador.SeguridadSocialValida == "No valida")
                             {
-                                <input asp-for="SeguridadSocial" name="seguridad" class="form-control custom-file-input" />
+                                <input asp-for="SeguridadSocial" class="form-control custom-file-input" />
                                 <label class="custom-file-label">Selecciona un archivo</label>
                                 <p class="text-danger">*La seguridad social no es válida. Por favor cargar seguridad social válida*</p>
+                            }
+                            else if (ViewBag.Trabajador.SeguridadSocialValida == "Pendiente")
+                            {
+                                <input asp-for="SeguridadSocial" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Selecciona un archivo</label>
+                                <p class="text-warning">*La seguridad social está pendiente a revisar*</p>
                             }
                             else
                             {
@@ -226,11 +256,17 @@
                     <div class="form-group">
                         <label asp-for="Planilla" class="control-label">Archivo planilla</label>
                         <div class="custom-file">
-                            @if (ViewBag.Trabajador.PlanillaValida != "Válida")
+                            @if (ViewBag.Trabajador.PlanillaValida == "No valida")
                             {
-                                <input asp-for="Planilla" name="planilla" class="form-control custom-file-input" />
+                                <input asp-for="Planilla" class="form-control custom-file-input" />
                                 <label class="custom-file-label">Selecciona un archivo</label>
                                 <p class="text-danger">*La planilla no es válida. Por favor cargar archivo de planilla válido*</p>
+                            }
+                            else if (ViewBag.Trabajador.PlanillaValida == "Pendiente")
+                            {
+                                <input asp-for="Planilla" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Selecciona un archivo</label>
+                                <p class="text-warning">*La planilla está pendiente a revisar*</p>
                             }
                             else
                             {
@@ -241,27 +277,57 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="control-label">Observación del administrador</label>
-                <textarea class="form-control" disabled>@ViewBag.Trabajador.Observacion</textarea>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Actualizar datos</button>
-            </div>
-
-            @section Scripts {
-
-                <script>
-                    $(document).ready(function () {
-                        $('.custom-file-input').on("change", function () {
-                            var filename = $(this).val().split("\\").pop();
-                            $(this).next('.custom-file-label').html(filename);
-                        });
-                    });
-                </script>
+            @if (ViewBag.Trabajador.CertificadoMedicoLaboralValido != null)
+            {
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="CertificadoMedicoLaboral" class="control-label">Archivo certificado médico laboral</label>
+                            <div class="custom-file">
+                                @if (ViewBag.Trabajador.CertificadoMedicoLaboralValido == "No valida")
+                                {
+                                    <input asp-for="CertificadoMedicoLaboral" class="form-control custom-file-input" />
+                                    <label class="custom-file-label">Selecciona un archivo</label>
+                                    <p class="text-danger">*El certificado médico laboral no es válido. Por favor cargar un certificado médico laboral válido*</p>
+                                }
+                                else if (ViewBag.Trabajador.CertificadoMedicoLaboralValido == "Pendiente")
+                                {
+                                    <input asp-for="CertificadoMedicoLaboral" class="form-control custom-file-input" />
+                                    <label class="custom-file-label">Selecciona un archivo</label>
+                                    <p class="text-warning">*El certificado médico laboral está pendiente a revisar*</p>
+                                }
+                                else
+                                {
+                                    <p class="text-success">Certificado médico laboral válido</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
-        </form>
+                   
+
+                    <div class="form-group">
+                        <label class="control-label">Observación del administrador</label>
+                        <textarea class="form-control" disabled>@ViewBag.Trabajador.Observacion</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Actualizar datos</button>
+                    </div>
+
+                    @section Scripts {
+
+                        <script>
+                            $(document).ready(function () {
+                                $('.custom-file-input').on("change", function () {
+                                    var filename = $(this).val().split("\\").pop();
+                                    $(this).next('.custom-file-label').html(filename);
+                                });
+                            });
+                        </script>
+                    }
+</form>
             }
             else
             {

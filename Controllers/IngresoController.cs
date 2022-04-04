@@ -82,6 +82,20 @@ namespace Contratistas.Controllers
                         @ViewData["Administrador"] = admin.Id;
                         //return View("~/Views/Admin/SolicitudContratistas.cshtml", listaSolicitudes);
                         //return View(Administrador);
+                        var fechaFinPlanilla = _context.Trabajador.Where(s => s.FechaFinObra != null && s.FechaFinObra != "").ToList();
+                        var fechaActual = DateTime.Now.Date;
+                        Console.WriteLine(fechaFinPlanilla.Count());
+                        foreach (var t in fechaFinPlanilla)
+                        {
+                            var fecha = DateTime.Parse(t.FechaFinObra.ToString());
+                            if (fecha < fechaActual)
+                            {
+                                t.PlanillaValida = "Pendiente";
+                                t.EstadoIngreso = "No autorizado";
+                                _context.Trabajador.Update(t);
+                            }
+                        }
+                        _context.SaveChanges();
                         return RedirectToAction("SolicitudContratistas", "Admin", new { adminid = admin.Id });
                     }
                     else

@@ -143,9 +143,6 @@ namespace Contratistas.Controllers
                 string rutaDefinitiva = "";
                 string rutawwwroot = "~/Documentos/" + contratista.NIT + "/";
 
-                Console.WriteLine("Aquiuuiiuiuiii");
-                Console.WriteLine(datosActualizar.CedulaImg);
-                Console.WriteLine("Aqcajaja");
                 if (datosActualizar.CedulaImg != null)
                 {
                     //Guarda la cedula
@@ -466,13 +463,13 @@ namespace Contratistas.Controllers
                     trabajador.PersonaContacto = validarDatosTrabajador.PersonaContacto;
                     trabajador.TelefonoContacto = validarDatosTrabajador.TelefonoContacto;
                     trabajador.Ciudad = validarDatosTrabajador.Ciudad;
-                    trabajador.CedulaValida = "No valida";
-                    trabajador.EPSValida = "No valida";
-                    trabajador.ARLValida = "No valida";
-                    trabajador.PensionValida = "No valida";
-                    trabajador.SeguridadSocialValida = "No valida";
-                    trabajador.PlanillaValida = "No valida";
-                    trabajador.CertificadoMedicoLaboralValido = "No valida";
+                    trabajador.CedulaValida = "Pendiente";
+                    trabajador.EPSValida = "Pendiente";
+                    trabajador.ARLValida = "Pendiente";
+                    trabajador.PensionValida = "Pendiente";
+                    trabajador.SeguridadSocialValida = "Pendiente";
+                    trabajador.PlanillaValida = "Pendiente";
+                    trabajador.CertificadoMedicoLaboralValido = "Pendiente";
                     trabajador.EstadoIngreso = validarDatosTrabajador.EstadoIngreso;
                     trabajador.IdContratista = contratistaid;
                     if (tieneSubcontratista)
