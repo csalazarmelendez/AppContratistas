@@ -117,159 +117,298 @@
                 }
             </div>
 
-            <div class="form-group">
-                <label class="control-label"><b>¿La cédula es válida?</b></label>
-                @if (ViewBag.CedulaValida == "Válida")
-                {
-                    <input name="cedula" type="checkbox" checked />
-                }
-                else
-                {
-                    <input name="cedula" type="checkbox" />
-                }
+            <div class="table-responsive">
+                <table id="listaTrabajadores" class="table table-bordered table-hover table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <td>Archivo</td>
+                            <td>No válido</td>
+                            <td>Válido</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.CedulaImg" class="btn btn-primary">Descargar Cédula</a>
+                                    <!--<img src="Url.Content(ViewBag.CedulaImg)" alt="Sample Image" width="1000px" />-->
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @if (ViewBag.CedulaValida == "No valida")
+                                    {
+                                        <input name="cedula" type="radio" value="novalida1" checked />
+                                    }
+                                    else
+                                    {
+                                        <input name="cedula" type="radio" value="novalida2" />
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @if (ViewBag.CedulaValida == "Valida")
+                                    {
+                                        <input name="cedula" type="radio" value="valida1" checked />
+                                    }
+                                    else
+                                    {
+                                        <input name="cedula" type="radio" value="valida2" />
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.EPS" class="btn btn-primary">Descargar EPS</a>
+                                    <!--<img src="Url.Content(ViewBag.EPS)" alt="Sample Image" width="1000px" />-->
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @if (ViewBag.EPSValida == "No valida")
+                                    {
+                                        <input name="eps" type="radio" value="novalida1" checked />
+                                    }
+                                    else
+                                    {
+                                        <input name="eps" type="radio" value="novalida2" />
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @if (ViewBag.EPSValida == "Valida")
+                                    {
+                                        <input name="eps" type="radio" value="valida1" checked />
+                                    }
+                                    else
+                                    {
+                                        <input name="eps" type="radio" value="valida2" />
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.ARL" class="btn btn-primary">Descargar ARL</a>
+                                    <!--<img src="Url.Content(ViewBag.ARL)" alt="Sample Image" width="1000px" />-->
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    
+                                    @if (ViewBag.ARLValida == "No valida")
+                                    {
+                                        <input name="arl" type="radio" value="novalida1" checked />
+                                    }
+                                    else
+                                    {
+                                        <input name="arl" type="radio" value="novalida2" />
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    
+                                    @if (ViewBag.ARLValida == "Valida")
+                                    {
+                                        <input name="arl" type="radio" value="valida1" checked />
+                                    }
+                                    else
+                                    {
+                                        <input name="arl" type="radio" value="valida2" />
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.Pension" class="btn btn-primary">Descargar Pension</a>
+                                    <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    
+
+                                    @if (ViewBag.PensionValida == "No valida")
+                                    {
+                                        <input name="pension" type="radio" value="novalida1" checked />
+                                    }
+                                    else
+                                    {
+                                        <input name="pension" type="radio" value="novalida2" />
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    
+
+                                    @if (ViewBag.PensionValida == "Valida")
+                                    {
+                                        <input name="pension" type="radio" value="valida1" checked />
+                                    }
+                                    else
+                                    {
+                                        <input name="pension" type="radio" value="valida2" />
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.Seguridad" class="btn btn-primary">Descargar seguridad social</a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    
+
+                                    @if (ViewBag.SeguridadValida == "No valida")
+                                    {
+                                        <input name="seguridad" type="radio" value="novalida1" checked />
+                                    }
+                                    else
+                                    {
+                                        <input name="seguridad" type="radio" value="novalida2" />
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+
+                                    @if (ViewBag.SeguridadValida == "Valida")
+                                    {
+                                        <input name="seguridad" type="radio" value="valida1" checked />
+                                    }
+                                    else
+                                    {
+                                        <input name="seguridad" type="radio" value="valida2" />
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.Planilla" class="btn btn-primary">Descargar Planilla</a>
+                                    <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    
+
+                                    @if (ViewBag.PlanillaValida == "No valida")
+                                    {
+                                        <input name="planilla" type="radio" value="novalida1" checked />
+                                    }
+                                    else
+                                    {
+                                        <input name="planilla" type="radio" value="novalida2" />
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+
+                                    @if (ViewBag.PlanillaValida == "Valida")
+                                    {
+                                        <input name="planilla" type="radio" value="valida1" checked />
+                                    }
+                                    else
+                                    {
+                                        <input name="planilla" type="radio" value="valida2" />
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+
+                        @if (ViewBag.CML != null)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.CML" class="btn btn-primary">Descargar certificado médico laboral</a>
+                                        <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        
+
+                                        @if (ViewBag.CMLValido == "No valida")
+                                        {
+                                            <input name="cml" type="radio" value="novalida1" checked />
+                                        }
+                                        else
+                                        {
+                                            <input name="cml" type="radio" value="novalida2" />
+                                        }
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        
+
+                                        @if (ViewBag.CMLValido == "Valida")
+                                        {
+                                            <input name="cml" type="radio" value="valida1" checked />
+                                        }
+                                        else
+                                        {
+                                            <input name="cml" type="radio" value="valida2" />
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
-            <div class="form-group">
-                <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.CedulaImg" class="btn btn-primary">Descargar Cédula</a>
-                <!--<img src="Url.Content(ViewBag.CedulaImg)" alt="Sample Image" width="1000px" />-->
-            </div>
 
 
-            <div class="form-group">
-                <label class="control-label"><b>¿La EPS es válida?</b></label>
-                @if (ViewBag.EPSValida == "Válida")
-                {
-                    <input name="eps" type="checkbox" checked />
-                }
-                else
-                {
-                    <input name="eps" type="checkbox" />
-                }
-            </div>
-            <div class="form-group">
-                <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.EPS" class="btn btn-primary">Descargar EPS</a>
-                <!--<img src="Url.Content(ViewBag.EPS)" alt="Sample Image" width="1000px" />-->
-            </div>
+                        <div class="form-group">
+                            <label class="control-label">Estado de ingreso</label>
+                            <select name="ingreso" class="form-control">
+                                <!--Traer las obras-->
+                                <option name="ingreso">@ViewBag.EstadoIngreso</option>
+                                <option name="ingreso">@ViewBag.NotEstadoIngreso</option>
+                            </select>
+                        </div>
 
-            <div class="form-group">
-                <label class="control-label"><b>¿La ARL es válida?</b></label>
-                @if (ViewBag.ARLValida == "Válida")
-                {
-                    <input name="arl" type="checkbox" checked />
-                }
-                else
-                {
-                    <input name="arl" type="checkbox" />
-                }
-            </div>
+                        <div class="form-group">
+                            <label class="control-label">Fecha de ingreso a la obra</label>
+                            <input name="fecha" class="form-control" type="date" value="@ViewBag.FechaIngreso" />
+                        </div>
 
-            <div class="form-group">
-                <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.ARL" class="btn btn-primary">Descargar ARL</a>
-                <!--<img src="Url.Content(ViewBag.ARL)" alt="Sample Image" width="1000px" />-->
-            </div>
+                        <div class="form-group">
+                            <label class="control-label">Fecha final planilla</label>
+                            <input name="fechaFin" class="form-control" type="date" value="@ViewBag.FechaFin" />
+                        </div>
 
-            <div class="form-group">
-                <label class="control-label"><b>¿El documento de pensión es válido?</b></label>
+                        <div class="form-group">
+                            <label class="control-label">Observaciones</label>
+                            <textarea name="observacion" class="form-control">@ViewBag.Observacion</textarea>
+                        </div>
 
-                @if (ViewBag.PensionValida == "Válida")
-                {
-                    <input name="pension" type="checkbox" checked />
-                }
-                else
-                {
-                    <input name="pension" type="checkbox" />
-                }
-            </div>
-
-            <div class="form-group">
-                <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.Pension" class="btn btn-primary">Descargar Pension</a>
-                <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
-            </div>
-
-            <div class="form-group">
-                <label class="control-label"><b>¿El documento de seguridad social es válido?</b></label>
-
-                @if (ViewBag.SeguridadValida == "Válida")
-                {
-                    <input name="seguridad" type="checkbox" checked />
-                }
-                else
-                {
-                    <input name="seguridad" type="checkbox" />
-                }
-            </div>
-
-            <div class="form-group">
-                <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.Seguridad" class="btn btn-primary">Descargar seguridad social</a>
-                <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
-            </div>
-
-            <div class="form-group">
-                <label class="control-label"><b>¿La planilla es válida?</b></label>
-
-                @if (ViewBag.PlanillaValida == "Válida")
-                {
-                    <input name="planilla" type="checkbox" checked />
-                }
-                else
-                {
-                    <input name="planilla" type="checkbox" />
-                }
-            </div>
-
-            <div class="form-group">
-                <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.Planilla" class="btn btn-primary">Descargar Planilla</a>
-                <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
-            </div>
-
-            @if (ViewBag.CML != null)
-            {
-                <div class="form-group">
-                    <label class="control-label"><b>¿El certificado médico laboral es válido?</b></label>
-
-                    @if (ViewBag.CMLValido == "Válida")
-                    {
-                        <input name="cml" type="checkbox" checked />
-                    }
-                    else
-                    {
-                        <input name="cml" type="checkbox" />
-                    }
-                </div>
-
-                <div class="form-group">
-                    <a asp-controller="Admin" asp-action="DownloadFile" asp-route-adminid="@ViewData["Administrador"]" asp-route-idtrabajador="@ViewBag.Id" asp-route-filePath="@ViewBag.CML" class="btn btn-primary">Descargar certificado médico laboral</a>
-                    <!--<img src="Url.Content(ViewBag.Pension)" alt="Sample Image" width="1000px" />-->
-                </div>
-            }
-
-
-            <div class="form-group">
-                <label class="control-label">Estado de ingreso</label>
-                <select name="ingreso" class="form-control">
-                    <!--Traer las obras-->
-                    <option name="ingreso">@ViewBag.EstadoIngreso</option>
-                    <option name="ingreso">@ViewBag.NotEstadoIngreso</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label">Fecha de ingreso a la obra</label>
-                <input name="fecha" class="form-control" type="date" value="@ViewBag.FechaIngreso" />
-            </div>
-
-            <div class="form-group">
-                <label class="control-label">Fecha final planilla</label>
-                <input name="fechaFin" class="form-control" type="date" value="@ViewBag.FechaFin" />
-            </div>
-
-            <div class="form-group">
-                <label class="control-label">Observaciones</label>
-                <textarea name="observacion" class="form-control">@ViewBag.Observacion</textarea>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Guardar datos" class="btn btn-primary">
-            </div>
+                        <div class="form-group">
+                            <input type="submit" value="Guardar datos" class="btn btn-primary">
+                        </div>
         </form>
             }
             else

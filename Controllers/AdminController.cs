@@ -185,6 +185,8 @@ namespace Contratistas.Controllers
             {
                 //Datos del trabajador
                 var trabajador = _context.Trabajador.Find(idtrabajador);
+                Console.WriteLine(trabajador.Nombre);
+                Console.WriteLine(trabajador.SeguridadSocialValida);
                 var contratista = _context.Contratista.Find(trabajador.IdContratista);
                 var documentos = _context.Documento.Where(s => s.Trabajador == idtrabajador).ToList();
                 var gettrabajadorxobras = _context.TrabajadorXObra.Where(s => s.IdTrabajador == idtrabajador).ToList();
@@ -370,20 +372,42 @@ namespace Contratistas.Controllers
 
             var trabajador = _context.Trabajador.Find(idtrabajador);
             string validacion;
-            validacion = (cedula == "on") ? "Válida" : "No válida";
-            trabajador.CedulaValida = validacion;
-            validacion = (eps == "on") ? "Válida" : "No válida";
-            trabajador.EPSValida = validacion;
-            validacion = (arl == "on") ? "Válida" : "No válida";
-            trabajador.ARLValida = validacion;
-            validacion = (pension == "on") ? "Válida" : "No válida";
-            trabajador.PensionValida = validacion;
-            validacion = (seguridad == "on") ? "Válida" : "No válida";
-            trabajador.SeguridadSocialValida = validacion;
-            validacion = (planilla == "on") ? "Válida" : "No válida";
-            trabajador.PlanillaValida = validacion;
-            validacion = (cml == "on") ? "Válida" : "No válida";
-            trabajador.CertificadoMedicoLaboralValido = validacion;
+            if (cedula == "valida1" || cedula == "valida2" || cedula == "novalida1" || cedula == "novalida2")
+            {
+                validacion = ((cedula == "valida1" || cedula == "valida2") && (cedula != "novalida1" || cedula != "novalida2")) ? "Valida" : "No valida";
+                trabajador.CedulaValida = validacion;
+            }
+            if (eps == "valida1" || eps == "valida2" || eps == "novalida1" || eps == "novalida2")
+            {
+                validacion = ((eps == "valida1" || eps == "valida2") && (eps != "novalida1" || eps != "novalida2")) ? "Valida" : "No valida";
+                trabajador.EPSValida = validacion;
+            }
+            if (arl == "valida1" || arl == "valida2" || arl == "novalida1" || arl == "novalida2")
+            {
+                validacion = ((arl == "valida1" || arl == "valida2") && (arl != "novalida1" || arl != "novalida2")) ? "Valida" : "No valida";
+                trabajador.ARLValida = validacion;
+            }
+            if (pension == "valida1" || pension == "valida2" || pension == "novalida1" || pension == "novalida2")
+            {
+                validacion = ((pension == "valida1" || pension == "valida2") && (pension != "novalida1" || pension != "novalida2")) ? "Valida" : "No valida";
+                trabajador.PensionValida = validacion;
+            }
+            if (seguridad == "valida1" || seguridad == "valida2" || seguridad == "novalida1" || seguridad == "novalida2")
+            {
+                validacion = ((seguridad == "valida1" || seguridad == "valida2") && (seguridad != "novalida1" || seguridad != "novalida2")) ? "Valida" : "No valida";
+                trabajador.SeguridadSocialValida = validacion;
+            }
+            if (planilla == "valida1" || planilla == "valida2" || planilla == "novalida1" || planilla == "novalida2")
+            {
+                validacion = ((planilla == "valida1" || planilla == "valida2") && (planilla != "novalida1" || planilla != "novalida2")) ? "Valida" : "No valida";
+                trabajador.PlanillaValida = validacion;
+            }
+            if (cml == "valida1" || cml == "valida2" || cml == "novalida1" || cml == "novalida2")
+            {
+                validacion = ((cml == "valida1" || cml == "valida2") && (cml != "novalida1" || cml != "novalida2")) ? "Valida" : "No valida";
+                trabajador.CertificadoMedicoLaboralValido = validacion;
+            }
+
             trabajador.EstadoIngreso = ingreso;
             trabajador.FechaIngresoObra = fecha;
             trabajador.FechaFinObra = fechaFin;

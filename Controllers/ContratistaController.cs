@@ -466,13 +466,13 @@ namespace Contratistas.Controllers
                     trabajador.PersonaContacto = validarDatosTrabajador.PersonaContacto;
                     trabajador.TelefonoContacto = validarDatosTrabajador.TelefonoContacto;
                     trabajador.Ciudad = validarDatosTrabajador.Ciudad;
-                    trabajador.CedulaValida = "No válida";
-                    trabajador.EPSValida = "No válida";
-                    trabajador.ARLValida = "No válida";
-                    trabajador.PensionValida = "No válida";
-                    trabajador.SeguridadSocialValida = "No válida";
-                    trabajador.PlanillaValida = "No válida";
-                    trabajador.CertificadoMedicoLaboralValido = "No válida";
+                    trabajador.CedulaValida = "No valida";
+                    trabajador.EPSValida = "No valida";
+                    trabajador.ARLValida = "No valida";
+                    trabajador.PensionValida = "No valida";
+                    trabajador.SeguridadSocialValida = "No valida";
+                    trabajador.PlanillaValida = "No valida";
+                    trabajador.CertificadoMedicoLaboralValido = "No valida";
                     trabajador.EstadoIngreso = validarDatosTrabajador.EstadoIngreso;
                     trabajador.IdContratista = contratistaid;
                     if (tieneSubcontratista)
