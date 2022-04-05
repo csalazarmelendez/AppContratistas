@@ -97,6 +97,18 @@ namespace Contratistas.Controllers
             return View();
         }
 
+        public static int LengthFormatoArchivo(string archivo)
+        {
+            int ans = 0;
+            int i = archivo.Length - 1;
+            while (archivo[i] != '.')
+            {
+                ans++;
+                i--;
+            }
+            return ans+1;
+        }
+
         public IActionResult ModificarDatosTrabajador(int contratistaid, int? trabajadorced, int? trabajadorid, int? actualizarid, ValidarDatosTrabajador datosActualizar)
         {
             var contratista = _context.Contratista.Find(contratistaid);
@@ -134,12 +146,13 @@ namespace Contratistas.Controllers
                 trabajador.Nombre = datosActualizar.Nombre;
                 trabajador.Apellido = datosActualizar.Apellido;
                 trabajador.Email = datosActualizar.Email;
-                //trabajador.FechaNacimiento = datosActualizar.FechaNacimiento;
                 trabajador.Telefono = datosActualizar.Telefono;
                 trabajador.PersonaContacto = datosActualizar.PersonaContacto;
                 trabajador.TelefonoContacto = datosActualizar.TelefonoContacto;
 
-                string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Documentos"); //borrar linea filePath = filePath + @"\Documentos";
+                //string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Documentos"); //borrar linea filePath = filePath + @"\Documentos";
+                string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                filePath = filePath + @"\Documentos";
                 filePath = filePath + @"\" + contratista.NIT;
                 string ced = trabajador.Cedula;
                 string rutaDefinitiva = "";
@@ -148,9 +161,10 @@ namespace Contratistas.Controllers
                 if (datosActualizar.CedulaImg != null)
                 {
                     //Guarda la cedula
-                    string cedula = ced + "_cedula" + datosActualizar.CedulaImg.FileName.Substring(datosActualizar.CedulaImg.FileName.Length - 4);
+                    string cedula = ced + "_cedula" + datosActualizar.CedulaImg.FileName.Substring(datosActualizar.CedulaImg.FileName.Length - LengthFormatoArchivo(datosActualizar.CedulaImg.FileName));
                     rutaDefinitiva = Path.Combine(filePath, cedula);
-                    string oldfile = documento.Cedula.Remove(0, 1);
+                    string oldfile = documento.Cedula;
+                    /*string oldfile = documento.Cedula.Remove(0, 1);
                     string path = Directory.GetCurrentDirectory() + @"\wwwroot";
                     foreach (var c in oldfile)
                     {
@@ -162,20 +176,24 @@ namespace Contratistas.Controllers
                         {
                             path = path + c;
                         }
-                    }
-                    System.IO.File.Delete(path);
+                    }*/
+                    //System.IO.File.Delete(path);
+                    System.IO.File.Delete(oldfile);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {   
                         datosActualizar.CedulaImg.CopyTo(stream);
                     }
-                    documento.Cedula = Path.Combine(rutawwwroot, cedula);
+                    documento.Cedula = rutaDefinitiva;
+                    _context.Documento.Update(documento);
+                    _context.SaveChanges();
                 }
                 if (datosActualizar.EPS != null)
                 {
                     //Guarda la EPS
-                    string eps = ced + "_eps" + datosActualizar.EPS.FileName.Substring(datosActualizar.EPS.FileName.Length - 4);
+                    string eps = ced + "_eps" + datosActualizar.EPS.FileName.Substring(datosActualizar.EPS.FileName.Length - LengthFormatoArchivo(datosActualizar.EPS.FileName));
                     rutaDefinitiva = Path.Combine(filePath, eps);
-                    string oldfile = documento.EPS.Remove(0, 1);
+                    string oldfile = documento.EPS;
+                    /*string oldfile = documento.EPS.Remove(0, 1);
                     string path = Directory.GetCurrentDirectory() + @"\wwwroot";
                     foreach (var c in oldfile)
                     {
@@ -188,19 +206,23 @@ namespace Contratistas.Controllers
                             path = path + c;
                         }
                     }
-                    System.IO.File.Delete(path);
+                    System.IO.File.Delete(path);*/
+                    System.IO.File.Delete(oldfile);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {
                         datosActualizar.EPS.CopyTo(stream);
                     }
-                    documento.EPS = Path.Combine(rutawwwroot, eps);
+                    documento.EPS = rutaDefinitiva;
+                    _context.Documento.Update(documento);
+                    _context.SaveChanges();
                 }
                 if (datosActualizar.ARL != null)
                 {
                     //Guarda el ARL
-                    string arl = ced + "_arl" + datosActualizar.ARL.FileName.Substring(datosActualizar.ARL.FileName.Length - 4);
+                    string arl = ced + "_arl" + datosActualizar.ARL.FileName.Substring(datosActualizar.ARL.FileName.Length - LengthFormatoArchivo(datosActualizar.ARL.FileName));
                     rutaDefinitiva = Path.Combine(filePath, arl);
-                    string oldfile = documento.ARL.Remove(0, 1);
+                    string oldfile = documento.ARL;
+                    /*string oldfile = documento.ARL.Remove(0, 1);
                     string path = Directory.GetCurrentDirectory() + @"\wwwroot";
                     foreach (var c in oldfile)
                     {
@@ -213,19 +235,23 @@ namespace Contratistas.Controllers
                             path = path + c;
                         }
                     }
-                    System.IO.File.Delete(path);
+                    System.IO.File.Delete(path);*/
+                    System.IO.File.Delete(oldfile);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {
                         datosActualizar.ARL.CopyTo(stream);
                     }
-                    documento.ARL = Path.Combine(rutawwwroot, arl);
+                    documento.ARL = rutaDefinitiva;
+                    _context.Documento.Update(documento);
+                    _context.SaveChanges();
                 }
                 if (datosActualizar.Pension != null)
                 {
                     //Guarda la Pension
-                    string pension = ced + "_pension" + datosActualizar.Pension.FileName.Substring(datosActualizar.Pension.FileName.Length - 4);
+                    string pension = ced + "_pension" + datosActualizar.Pension.FileName.Substring(datosActualizar.Pension.FileName.Length - LengthFormatoArchivo(datosActualizar.Pension.FileName));
                     rutaDefinitiva = Path.Combine(filePath, pension);
-                    string oldfile = documento.Pension.Remove(0, 1);
+                    string oldfile = documento.Pension;
+                    /*string oldfile = documento.Pension.Remove(0, 1);
                     string path = Directory.GetCurrentDirectory() + @"\wwwroot";
                     foreach (var c in oldfile)
                     {
@@ -238,19 +264,23 @@ namespace Contratistas.Controllers
                             path = path + c;
                         }
                     }
-                    System.IO.File.Delete(path);
+                    System.IO.File.Delete(path);*/
+                    System.IO.File.Delete(oldfile);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {
                         datosActualizar.Pension.CopyTo(stream);
                     }
-                    documento.Pension = Path.Combine(rutawwwroot, pension);
+                    documento.Pension = rutaDefinitiva;
+                    _context.Documento.Update(documento);
+                    _context.SaveChanges();
                 }
                 if (datosActualizar.SeguridadSocial != null)
                 {
                     //Guarda la seguridad social
-                    string seguridad = ced + "_seguridad" + datosActualizar.SeguridadSocial.FileName.Substring(datosActualizar.SeguridadSocial.FileName.Length - 4);
+                    string seguridad = ced + "_seguridad" + datosActualizar.SeguridadSocial.FileName.Substring(datosActualizar.SeguridadSocial.FileName.Length - LengthFormatoArchivo(datosActualizar.SeguridadSocial.FileName));
                     rutaDefinitiva = Path.Combine(filePath, seguridad);
-                    string oldfile = documento.SeguridadSocial.Remove(0, 1);
+                    string oldfile = documento.SeguridadSocial;
+                    /*string oldfile = documento.SeguridadSocial.Remove(0, 1);
                     string path = Directory.GetCurrentDirectory() + @"\wwwroot";
                     foreach (var c in oldfile)
                     {
@@ -263,19 +293,23 @@ namespace Contratistas.Controllers
                             path = path + c;
                         }
                     }
-                    System.IO.File.Delete(path);
+                    System.IO.File.Delete(path);*/
+                    System.IO.File.Delete(oldfile);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {
                         datosActualizar.SeguridadSocial.CopyTo(stream);
                     }
-                    documento.Pension = Path.Combine(rutawwwroot, seguridad);
+                    documento.SeguridadSocial = rutaDefinitiva;
+                    _context.Documento.Update(documento);
+                    _context.SaveChanges();
                 }
                 if (datosActualizar.Planilla != null)
                 {
                     //Guarda la seguridad social
-                    string planilla = ced + "_planilla" + datosActualizar.Planilla.FileName.Substring(datosActualizar.Planilla.FileName.Length - 4);
+                    string planilla = ced + "_planilla" + datosActualizar.Planilla.FileName.Substring(datosActualizar.Planilla.FileName.Length - LengthFormatoArchivo(datosActualizar.Planilla.FileName));
                     rutaDefinitiva = Path.Combine(filePath, planilla);
-                    string oldfile = documento.Planilla.Remove(0, 1);
+                    string oldfile = documento.Planilla;
+                    /*string oldfile = documento.Planilla.Remove(0, 1);
                     string path = Directory.GetCurrentDirectory() + @"\wwwroot";
                     foreach (var c in oldfile)
                     {
@@ -288,19 +322,23 @@ namespace Contratistas.Controllers
                             path = path + c;
                         }
                     }
-                    System.IO.File.Delete(path);
+                    System.IO.File.Delete(path);*/
+                    System.IO.File.Delete(oldfile);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {
                         datosActualizar.Planilla.CopyTo(stream);
                     }
-                    documento.Planilla = Path.Combine(rutawwwroot, planilla);
+                    documento.Planilla = rutaDefinitiva;
+                    _context.Documento.Update(documento);
+                    _context.SaveChanges();
                 }
                 if (datosActualizar.CertificadoMedicoLaboral != null)
                 {
                     //Guarda el certificado medico laboral
-                    string cml = ced + "_cml" + datosActualizar.CertificadoMedicoLaboral.FileName.Substring(datosActualizar.CertificadoMedicoLaboral.FileName.Length - 4);
+                    string cml = ced + "_cml" + datosActualizar.CertificadoMedicoLaboral.FileName.Substring(datosActualizar.CertificadoMedicoLaboral.FileName.Length - LengthFormatoArchivo(datosActualizar.CertificadoMedicoLaboral.FileName));
                     rutaDefinitiva = Path.Combine(filePath, cml);
-                    string oldfile = documento.CertificadoMedicoLaboral.Remove(0, 1);
+                    string oldfile = documento.CertificadoMedicoLaboral;
+                    /*string oldfile = documento.CertificadoMedicoLaboral.Remove(0, 1);
                     string path = Directory.GetCurrentDirectory() + @"\wwwroot";
                     foreach (var c in oldfile)
                     {
@@ -313,12 +351,15 @@ namespace Contratistas.Controllers
                             path = path + c;
                         }
                     }
-                    System.IO.File.Delete(path);
+                    System.IO.File.Delete(path);*/
+                    System.IO.File.Delete(oldfile);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {
                         datosActualizar.CedulaImg.CopyTo(stream);
                     }
-                    documento.CertificadoMedicoLaboral = Path.Combine(rutawwwroot, cml);
+                    documento.CertificadoMedicoLaboral = rutaDefinitiva;
+                    _context.Documento.Update(documento);
+                    _context.SaveChanges();
                 }
                 _context.Trabajador.Update(trabajador);
                 _context.SaveChanges();
@@ -376,11 +417,11 @@ namespace Contratistas.Controllers
                 string guidImage = null;
                 if (validarDatosTrabajador.CedulaImg != null && validarDatosTrabajador.EPS != null && validarDatosTrabajador.ARL != null && validarDatosTrabajador.Pension != null && validarDatosTrabajador.SeguridadSocial != null && validarDatosTrabajador.Planilla != null && validoCML)
                 {
-                    string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Documentos"); //borrar linea filePath = filePath + @"\Documentos";
-                    /*string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    //string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Documentos"); //borrar linea filePath = filePath + @"\Documentos";
+                    string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     filePath = filePath + @"\Documentos";
                     //Crea carpeta documentos en el escritorio
-                    if (!Directory.Exists(filePath))
+                    /*if (!Directory.Exists(filePath))
                     {
                         Directory.CreateDirectory(filePath);
                     }*/
@@ -394,42 +435,42 @@ namespace Contratistas.Controllers
                     guidImage = Guid.NewGuid().ToString();
                     string ced = validarDatosTrabajador.Cedula;
                     //Guarda la cedula
-                    string cedula = ced + "_cedula" + validarDatosTrabajador.CedulaImg.FileName.Substring(validarDatosTrabajador.CedulaImg.FileName.Length - 4);
+                    string cedula = ced + "_cedula" + validarDatosTrabajador.CedulaImg.FileName.Substring(validarDatosTrabajador.CedulaImg.FileName.Length - LengthFormatoArchivo(validarDatosTrabajador.CedulaImg.FileName));
                     string rutaDefinitiva = Path.Combine(filePath, cedula);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {
                         validarDatosTrabajador.CedulaImg.CopyTo(stream);
                     }
                     //Guarda la EPS
-                    string eps = ced + "_eps" + validarDatosTrabajador.EPS.FileName.Substring(validarDatosTrabajador.EPS.FileName.Length - 4);
+                    string eps = ced + "_eps" + validarDatosTrabajador.EPS.FileName.Substring(validarDatosTrabajador.EPS.FileName.Length - LengthFormatoArchivo(validarDatosTrabajador.EPS.FileName));
                     rutaDefinitiva = Path.Combine(filePath, eps);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {
                         validarDatosTrabajador.EPS.CopyTo(stream);
                     }
                     //Guarda el ARL
-                    string arl = ced + "_arl" + validarDatosTrabajador.ARL.FileName.Substring(validarDatosTrabajador.ARL.FileName.Length - 4);
+                    string arl = ced + "_arl" + validarDatosTrabajador.ARL.FileName.Substring(validarDatosTrabajador.ARL.FileName.Length - LengthFormatoArchivo(validarDatosTrabajador.ARL.FileName));
                     rutaDefinitiva = Path.Combine(filePath, arl);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {
                         validarDatosTrabajador.ARL.CopyTo(stream);
                     }
                     //Guarda la Pension
-                    string pension = ced + "_pension" + validarDatosTrabajador.Pension.FileName.Substring(validarDatosTrabajador.Pension.FileName.Length - 4);
+                    string pension = ced + "_pension" + validarDatosTrabajador.Pension.FileName.Substring(validarDatosTrabajador.Pension.FileName.Length - LengthFormatoArchivo(validarDatosTrabajador.Pension.FileName));
                     rutaDefinitiva = Path.Combine(filePath, pension);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {
                         validarDatosTrabajador.Pension.CopyTo(stream);
                     }
                     //Guarda la Seguridad social
-                    string seguridad = ced + "_seguridad" + validarDatosTrabajador.SeguridadSocial.FileName.Substring(validarDatosTrabajador.SeguridadSocial.FileName.Length - 4);
+                    string seguridad = ced + "_seguridad" + validarDatosTrabajador.SeguridadSocial.FileName.Substring(validarDatosTrabajador.SeguridadSocial.FileName.Length - LengthFormatoArchivo(validarDatosTrabajador.SeguridadSocial.FileName));
                     rutaDefinitiva = Path.Combine(filePath, seguridad);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {
                         validarDatosTrabajador.SeguridadSocial.CopyTo(stream);
                     }
                     //Guarda la planilla
-                    string planilla = ced + "_planilla" + validarDatosTrabajador.Planilla.FileName.Substring(validarDatosTrabajador.Planilla.FileName.Length - 4);
+                    string planilla = ced + "_planilla" + validarDatosTrabajador.Planilla.FileName.Substring(validarDatosTrabajador.Planilla.FileName.Length - LengthFormatoArchivo(validarDatosTrabajador.Planilla.FileName));
                     rutaDefinitiva = Path.Combine(filePath, planilla);
                     using (var stream = System.IO.File.Create(rutaDefinitiva))
                     {
@@ -491,26 +532,29 @@ namespace Contratistas.Controllers
                     if (necesarioCML)
                     {
                         //Guarda certificado medico laboral
-                        string cml = ced + "_cml" + validarDatosTrabajador.CertificadoMedicoLaboral.FileName.Substring(validarDatosTrabajador.CertificadoMedicoLaboral.FileName.Length - 4);
+                        string cml = ced + "_cml" + validarDatosTrabajador.CertificadoMedicoLaboral.FileName.Substring(validarDatosTrabajador.CertificadoMedicoLaboral.FileName.Length - LengthFormatoArchivo(validarDatosTrabajador.CertificadoMedicoLaboral.FileName));
                         rutaDefinitiva = Path.Combine(filePath, cml);
                         using (var stream = System.IO.File.Create(rutaDefinitiva))
                         {
                             validarDatosTrabajador.CertificadoMedicoLaboral.CopyTo(stream);
                         }
 
-                        documento.CertificadoMedicoLaboral = Path.Combine(rutawwwroot, cml);
+                        //documento.CertificadoMedicoLaboral = Path.Combine(rutawwwroot, cml);
+                        documento.CertificadoMedicoLaboral = Path.Combine(filePath, cml);
                     }
                     
-                    /*documento.Cedula = Path.Combine(filePath, cedula);
+                    documento.Cedula = Path.Combine(filePath, cedula);
                     documento.EPS = Path.Combine(filePath, eps);
                     documento.ARL = Path.Combine(filePath, arl);
-                    documento.Pension = Path.Combine(filePath, pension);*/
-                    documento.Cedula = Path.Combine(rutawwwroot, cedula);
+                    documento.Pension = Path.Combine(filePath, pension);
+                    documento.SeguridadSocial = Path.Combine(filePath, seguridad);
+                    documento.Planilla = Path.Combine(filePath, planilla);
+                    /*documento.Cedula = Path.Combine(rutawwwroot, cedula);
                     documento.EPS = Path.Combine(rutawwwroot, eps);
                     documento.ARL = Path.Combine(rutawwwroot, arl);
                     documento.Pension = Path.Combine(rutawwwroot, pension);
                     documento.SeguridadSocial = Path.Combine(rutawwwroot, seguridad);
-                    documento.Planilla = Path.Combine(rutawwwroot, planilla);
+                    documento.Planilla = Path.Combine(rutawwwroot, planilla);*/
 
                     documento.Trabajador = idTrabajador;
                     _context.Documento.Add(documento);

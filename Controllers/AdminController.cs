@@ -298,7 +298,7 @@ namespace Contratistas.Controllers
 
         public async  Task<IActionResult> DownloadFile(int adminid, int idtrabajador, string filePath)
         {
-            filePath = filePath.Remove(0, 1);
+            /*filePath = filePath.Remove(0, 1);
             string path = Directory.GetCurrentDirectory() + @"\wwwroot";
             foreach (var c in filePath)
             {
@@ -310,7 +310,8 @@ namespace Contratistas.Controllers
                 {
                     path = path + c;
                 }
-            }
+            }*/
+            string path = filePath;
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open))
             {
