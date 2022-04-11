@@ -23,30 +23,43 @@ namespace Contratistas
             Configuration = configuration;
         }
 
+
+
         public IConfiguration Configuration { get; }
 
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
+
+
+
+        //Configuración de cadena de conexión
+
+
+
         public void ConfigureServices(IServiceCollection services)
         {
-            //Configuración de cadena de conexión
-            services.AddDbContext<ApplicationDbContext>(options => 
+            services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            //Añadimos un esquema de autenticacion por cookies y lo establecemos por defecto
+            services.AddAuthentication("CookieAuth").AddCookie("CookieAuth", optionsST =>
             {
-                options.LoginPath = "/Ingreso";
+                optionsST.Cookie.Name = "CookieAuthBySteven";
+                optionsST.Cookie.MaxAge = TimeSpan.FromMinutes(30);
+                optionsST.LoginPath = "/Ingreso/Index";
             });
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 3;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-            });
+
+
+
+
+
+
 
             services.AddControllersWithViews();
         }
+
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -64,18 +77,22 @@ namespace Contratistas
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+
+
             app.UseRouting();
-            //app.UseAuthentication();
-            //app.UseAuthorization();
-            
+            //Authenticate ¿Quien eres?
+            app.UseAuthentication();
+            //¿Esta permitido que entres a donde quieres entrar?
+            app.UseAuthorization();
+
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
         }
     }
 }

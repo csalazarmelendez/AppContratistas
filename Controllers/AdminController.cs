@@ -15,19 +15,19 @@ using System.Threading.Tasks;
 
 namespace Contratistas.Controllers
 {
-    
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        //private readonly UserManager<IdentityUser> userManager;
+        //private readonly SignInManager<IdentityUser> signInManager;
         private readonly ILogger<AdminController> _logger;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public AdminController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ILogger<AdminController> logger)
+        public AdminController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, ILogger<AdminController> logger)
         {
             _context = context;
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            //this.userManager = userManager;
+            //this.signInManager = signInManager;
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;
         }
@@ -122,7 +122,9 @@ namespace Contratistas.Controllers
                 contratista.IdOperador = oprId;
                 contratista.IdSolicitudRegistro = solicitud.Id;
                 contratista.ingresoPortal = true;
-               
+                _context.Contratista.Add(contratista);
+                _context.SaveChanges();
+                /*
                 var user = new IdentityUser()
                 {
                     UserName = contratista.Usuario,
@@ -136,7 +138,7 @@ namespace Contratistas.Controllers
                     await signInManager.SignInAsync(user, false);
                     _context.Contratista.Add(contratista);
                     _context.SaveChanges();
-                }
+                }*/
             }
             else if (contratistasnit.Count != 0)
             {

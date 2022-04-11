@@ -29,11 +29,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-route-adminid="@ViewData["Administrador"]" asp-controller="Admin" asp-action="SolicitudObraTrabajador">Gestión solicitud nueva obra</a>
                         </li>
-
-                        @if (User.Identity.IsAuthenticated)
+                        <!--
+                        if (User.Identity.IsAuthenticated)
                         {
                             <p>Si buenas</p>
-                        }
+                        }-->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Ingreso" asp-action="CerrarSesion">Cerrar sesión</a>
+                        </li>
                     </ul>
                 </div>
             </div>

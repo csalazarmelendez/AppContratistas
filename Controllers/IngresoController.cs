@@ -1,5 +1,6 @@
 ﻿using Contratistas.Data;
 using Contratistas.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,13 +17,13 @@ namespace Contratistas.Controllers
     public class IngresoController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly SignInManager<IdentityUser> signInManager;
-        private readonly UserManager<IdentityUser> userManager;
+        //private readonly SignInManager<IdentityUser> signInManager;
+        //private readonly UserManager<IdentityUser> userManager;
 
-        public IngresoController(ApplicationDbContext context, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public IngresoController(ApplicationDbContext context)
         {
             _context = context;
-            this.signInManager = signInManager;
+            //this.signInManager = signInManager;
         }
 
         public IActionResult Index(string returnUrl)
@@ -60,6 +61,27 @@ namespace Contratistas.Controllers
                     {
                         if (usr[0].ingresoPortal == true)
                         {
+                            List<Claim> passportClaims = new List<Claim>
+                            {
+                            // Pequeños fragmentos de informacion llamados claims que puede poseer un pasaporte
+                            new Claim(ClaimTypes.Name, usr[0].Razon_social),
+                            new Claim(ClaimTypes.Email, usr[0].Email),
+                            new Claim("NPasaporte","12345")
+                            };
+                            //Creamos la identidad pasaporte
+                            var passportIDentity = new ClaimsIdentity(passportClaims, "passport");
+                            List<Claim> nationalIdentificationClaims = new List<Claim>
+                            {
+                            //claims que posee una identificacion nacional
+                            new Claim(ClaimTypes.Name, usr[0].Razon_social),
+                            new Claim("fecha_nac","12/05/1996")
+                            };
+                            //Creamos la identidad
+                            var nationalIdentity = new ClaimsIdentity(nationalIdentificationClaims, "identificacionNacional");
+                            //Creamos la identidad princial del usuario que contendra la coleccion de identidades
+                            var identidad = new ClaimsPrincipal(new List<ClaimsIdentity> { passportIDentity, nationalIdentity });
+                            //Iniciamos session con la identidad del usuario
+                            HttpContext.SignInAsync(identidad);
                             Contratista contratista = usr[0]; //Usuario que ingresó
                             return RedirectToAction("IngresoTrabajador", "Contratista", new { contratistaid = contratista.Id });
                         }
@@ -78,6 +100,26 @@ namespace Contratistas.Controllers
                     var usr = _context.Administrador.Where(s => s.Usuario == usuario && s.Contrasena == contrasena).ToList();
                     if (usr.Count() != 0)
                     {
+                        List<Claim> passportClaims = new List<Claim>
+                        {
+                        // Pequeños fragmentos de informacion llamados claims que puede poseer un pasaporte
+                        new Claim(ClaimTypes.Name, usr[0].Nombre),
+                        new Claim("NPasaporte","12345")
+                        };
+                        //Creamos la identidad pasaporte
+                        var passportIDentity = new ClaimsIdentity(passportClaims, "passport");
+                        List<Claim> nationalIdentificationClaims = new List<Claim>
+                        {
+                        //claims que posee una identificacion nacional
+                        new Claim(ClaimTypes.Name, usr[0].Nombre),
+                        new Claim("fecha_nac","12/05/1996")
+                        };
+                        //Creamos la identidad
+                        var nationalIdentity = new ClaimsIdentity(nationalIdentificationClaims, "identificacionNacional");
+                        //Creamos la identidad princial del usuario que contendra la coleccion de identidades
+                        var identidad = new ClaimsPrincipal(new List<ClaimsIdentity> { passportIDentity, nationalIdentity });
+                        //Iniciamos session con la identidad del usuario
+                        HttpContext.SignInAsync(identidad);
                         Administrador admin = usr[0];
                         IEnumerable<SolicitudRegistro> listaSolicitudes = _context.SolicitudRegistro;
                         @ViewData["Administrador"] = admin.Id;
@@ -114,6 +156,21 @@ namespace Contratistas.Controllers
             //    TempData["mensaje"] = "Usuario o contraseña incorrectos";   
             //}
             return View("Views/Ingreso/Index.cshtml");
+        }
+
+        public IActionResult CerrarSesion()
+        {
+            if (HttpContext.Request.Cookies.Count > 0)
+            {
+                foreach (var cookie in HttpContext.Request.Cookies)
+                {
+                    if(cookie.Key != "CookieAuthBySteven")
+                    {
+                        Response.Cookies.Delete("CookieAuthBySteven");
+                    }
+                }
+            }
+            return RedirectToAction("Index", "Ingreso");
         }
 
         public IActionResult RecuperarContrasena()

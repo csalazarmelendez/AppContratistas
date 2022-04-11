@@ -13,16 +13,16 @@ using System.Threading.Tasks;
 
 namespace Contratistas.Controllers
 {
-    
+    [Authorize]
     public class ContratistaController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        //private readonly UserManager<IdentityUser> userManager;
+        //private readonly SignInManager<IdentityUser> signInManager;
         private readonly string wwwrootDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 
-        public ContratistaController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public ContratistaController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
