@@ -69,13 +69,22 @@
 
                 <div class="form-group">
                     <label asp-for="FechaNacimiento" class="control-label">Fecha de nacimiento</label>
-                    <input asp-for="FechaNacimiento" class="form-control" type="date" id="fecha" onclick="CML()" onkeyup="CML()" onmousemove="CML()"/>
+                    <input asp-for="FechaNacimiento" class="form-control" type="date" id="fecha" onclick="CML()" onkeyup="CML()" onmousemove="CML()" />
                     <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                </div>
+
+                <div id="error" class="form-group ocultar" style="display: none" role="alert">
+                    <label asp-for="CertificadoMedicoLaboral" class="control-label">Archivo certificado médico laboral *Mayor 60 años*</label>
+                    <div class="custom-file">
+                        <input asp-for="CertificadoMedicoLaboral" class="form-control custom-file-input" />
+                        <label class="custom-file-label">Selecciona un archivo</label>
+                        <span asp-validation-for="CertificadoMedicoLaboral" class="text-danger"></span>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Telefono" class="control-label">Télefono</label>
-                    <input asp-for="Telefono" type="number" class="form-control" placeholder="Teléfono" onclick="CML()"/>
+                    <input asp-for="Telefono" type="number" class="form-control" placeholder="Teléfono" onclick="CML()" />
                     <span asp-validation-for="Telefono" class="text-danger"></span>
                 </div>
 
@@ -174,14 +183,7 @@
                     </div>
                 </div>
 
-                <div id="error" class="form-group ocultar" style="display: none" role="alert">
-                    <label asp-for="CertificadoMedicoLaboral" class="control-label">Archivo certificado médico laboral *Mayor 60 años*</label>
-                    <div class="custom-file">
-                        <input asp-for="CertificadoMedicoLaboral" class="form-control custom-file-input" />
-                        <label class="custom-file-label">Selecciona un archivo</label>
-                        <span asp-validation-for="CertificadoMedicoLaboral" class="text-danger"></span>
-                    </div>
-                </div>
+
 
 
                 <div class="form-group">

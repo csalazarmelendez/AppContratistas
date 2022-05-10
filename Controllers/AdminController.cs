@@ -300,20 +300,23 @@ namespace Contratistas.Controllers
 
         public async  Task<IActionResult> DownloadFile(int adminid, int idtrabajador, string filePath)
         {
-            /*filePath = filePath.Remove(0, 1);
-            string path = Directory.GetCurrentDirectory() + @"\wwwroot";
+            filePath = filePath.Remove(0, 1);
+            string dpath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            //filePath = filePath + @"\Documentos";
+            //string path = Directory.GetCurrentDirectory() + @"\wwwroot";
             foreach (var c in filePath)
             {
                 if (c == '/')
                 {
-                    path = path + @"\";
+                    dpath = dpath + @"\";
                 }
                 else
                 {
-                    path = path + c;
+                    dpath = dpath + c;
                 }
-            }*/
-            string path = filePath;
+            }
+            //string path = filePath;
+            string path = dpath;
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open))
             {

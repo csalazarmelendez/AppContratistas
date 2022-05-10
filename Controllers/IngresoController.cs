@@ -196,9 +196,9 @@ namespace Contratistas.Controllers
                 string newcontra = contrasena_generada;
                 string mail = contratista.Email;
                 string emailOrigen = "vmtoro@constructoramelendez.com";
-                string emailDestino = "victortoromanuel@gmail.com";
-                //string emailDestino = "mail";
-                string contrasena = "vmtc19999";
+                //string emailDestino = "victortoromanuel@gmail.com";
+                string emailDestino = "mail";
+                string contrasena = "vmtc199999";
                 MailMessage mailMessage = new MailMessage(emailOrigen, emailDestino, "Recuperar contraseña software contratistas", "<p>Tu contraseña nueva es: " + newcontra + "<p>");
                 mailMessage.IsBodyHtml = true;
                 SmtpClient smtpClient = new SmtpClient("smtp-mail.outlook.com");
