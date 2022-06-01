@@ -129,6 +129,36 @@
                     <input id="cod" name="cod" hidden />
                 </div>
 
+                <div class="table-responsive">
+                    <table id="listaTrabajadores" class="table table-bordered table-hover table-striped">
+                        <thead class="thead-light">
+                            <tr>
+                                <td>¿El trabajador ya tiene afiliación con Constructora Meléndez?</td>
+                                <td> Si</td>
+                                <td> No</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>Afiliación con seguridad social</td>
+                                <td><input type="radio" id="nueva" name="afiliacion"  onclick="OcultarSeguridadSocial();" required /></td>
+                                <td><input type="radio" id="antigua" name="afiliacion"  value="OK" onclick="SolicitudSeguridadSocial();" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="errors" class="form-group ocultar" style="display: none" role="alert">
+                    <label asp-for="SeguridadSocial" class="control-label">Archivo seguridad social</label>
+                    <div class="custom-file">
+                        <input asp-for="SeguridadSocial" class="form-control custom-file-input" />
+                        <label class="custom-file-label">Selecciona un archivo</label>
+                        <span asp-validation-for="SeguridadSocial" class="text-danger"></span>
+                    </div>
+                </div>
+                <br id="ok" />
+
                 <div class="form-group">
                     <label asp-for="CedulaImg" class="control-label">Archivo cédula</label>
                     <div class="custom-file">
@@ -165,14 +195,6 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label asp-for="SeguridadSocial" class="control-label">Archivo seguridad social</label>
-                    <div class="custom-file">
-                        <input asp-for="SeguridadSocial" class="form-control custom-file-input" />
-                        <label class="custom-file-label">Selecciona un archivo</label>
-                        <span asp-validation-for="SeguridadSocial" class="text-danger"></span>
-                    </div>
-                </div>
 
                 <div class="form-group">
                     <label asp-for="Planilla" class="control-label">Archivo planilla</label>
@@ -267,6 +289,22 @@
                 ok.style.display = "block";
             }
         }
+
+
+        //Solicitar Seguridad Social
+        function SolicitudSeguridadSocial() {
+            errors.style.display = "block";
+            if (ok.style.display !== "none") {
+                ok.style.display = "none";
+            }
+        }
+
+        //Ocultar Seguridad social
+        function OcultarSeguridadSocial() {
+            errors.style.display = "none";
+            ok.style.display = "block";
+        }
+
     </script>
 </body>
 

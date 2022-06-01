@@ -66,14 +66,23 @@ namespace Contratistas.Controllers
             
             if (valid)
             {
-                string contrasena = Request.Form["contrasena"].ToString();
-                string conf_contrasena = Request.Form["conf_contrasena"].ToString();
-                if (contrasena == conf_contrasena)
+                var contratistaSolicitud = _context.Contratista.Where(s => s.NIT == solicitudRegistro.NIT).ToList();
+                if (contratistaSolicitud.Count == 0)
                 {
-                    _context.SolicitudRegistro.Add(solicitudRegistro);
-                    _context.SaveChanges();
-                    TempData["mensaje"] = "Solicitud de creación de usuario enviada";
-                    return RedirectToAction("Index", "Ingreso");
+                    string contrasena = Request.Form["contrasena"].ToString();
+                    string conf_contrasena = Request.Form["conf_contrasena"].ToString();
+                    if (contrasena == conf_contrasena)
+                    {
+                        _context.SolicitudRegistro.Add(solicitudRegistro);
+                        _context.SaveChanges();
+                        TempData["mensaje"] = "Solicitud de creación de usuario enviada";
+                        return RedirectToAction("Index", "Ingreso");
+                    }
+                }
+                else
+                {
+                    TempData["mensaje"] = "Ya existe un contratista con este NIT en el sistema. No se envió la solicitud...";
+                    return RedirectToAction("Registro", "Contratista");
                 }
             }
             TempData["mensaje"] = "Algo ocurrió. No se envió la solicitud...";
@@ -111,9 +120,11 @@ namespace Contratistas.Controllers
 
         public IActionResult ModificarDatosTrabajador(int contratistaid, int? trabajadorced, int? trabajadorid, int? actualizarid, ValidarDatosTrabajador datosActualizar)
         {
+            //Captura los datos del trabajador a modificar y se actualizan en la base de datos
             var contratista = _context.Contratista.Find(contratistaid);
             @ViewBag.Nombre = contratista.Razon_social;
             @ViewData["Contratista"] = contratistaid;
+            //Vista de modificacion de datos trabajador
             if (trabajadorced != null || trabajadorid != null)
             {
                 string cedula = (trabajadorced != null) ? Request.Form["cedula"].ToString() : _context.Trabajador.Find(trabajadorid).Cedula.ToString();
@@ -139,6 +150,7 @@ namespace Contratistas.Controllers
                 }
                 @ViewBag.Trabajadores = _context.Trabajador.Where(s => s.Cedula.Contains(cedula) && s.IdContratista == contratistaid).ToList();
             }
+            //Actualizacion de datos
             else if (actualizarid != null)
             {
                 var trabajador = _context.Trabajador.Find(actualizarid);
@@ -481,6 +493,17 @@ namespace Contratistas.Controllers
                     //Crear subcontratista
                     string nitSubcontratista = Request.Form["nitSubcontratista"].ToString();
                     string nombreSubcontratista = Request.Form["nombreSubcontratista"].ToString();
+                    string afiliacion = Request.Form["antigua"].ToString();
+                    string estadoAfiliacion = "Pendiente";
+                    string estadoCML = "Pendiente";
+                    if (afiliacion == "OK")
+                    {
+                        estadoAfiliacion = "Valida";
+                    }
+                    if (necesarioCML == false)
+                    {
+                        estadoCML = "Valida";
+                    }
                     bool tieneSubcontratista = false;
                     if (nitSubcontratista != null && nitSubcontratista != "" && nombreSubcontratista != null && nombreSubcontratista != "")
                     {
@@ -510,9 +533,9 @@ namespace Contratistas.Controllers
                     trabajador.EPSValida = "Pendiente";
                     trabajador.ARLValida = "Pendiente";
                     trabajador.PensionValida = "Pendiente";
-                    trabajador.SeguridadSocialValida = "Pendiente";
+                    trabajador.SeguridadSocialValida = estadoAfiliacion;
                     trabajador.PlanillaValida = "Pendiente";
-                    trabajador.CertificadoMedicoLaboralValido = "Pendiente";
+                    trabajador.CertificadoMedicoLaboralValido = estadoCML;
                     trabajador.EstadoIngreso = validarDatosTrabajador.EstadoIngreso;
                     trabajador.IdContratista = contratistaid;
                     if (tieneSubcontratista)
@@ -597,6 +620,7 @@ namespace Contratistas.Controllers
 
         public IActionResult SolicitudAgregarObra(int contratistaid)
         {
+            //Vista de solicitud nueva obra
             @ViewData["Contratista"] = contratistaid;
             var nombre = _context.Contratista.Find(contratistaid);
             @ViewBag.Nombre = nombre.Razon_social;
@@ -625,6 +649,7 @@ namespace Contratistas.Controllers
 
         public IActionResult EnviarSolicitud(int contratistaid)
         {
+            //Botón para enviar la solicitud de una nueva obra
             @ViewData["Contratista"] = contratistaid;
             string cedula = Request.Form["ced"].ToString();
             string nombre = Request.Form["nombre"].ToString();
@@ -649,24 +674,50 @@ namespace Contratistas.Controllers
                 return RedirectToAction("SolicitudAgregarObra", "Contratista", new { contratistaid = contratistaid });
             }
             
-            var solicitudesObra = _context.SolicitudObra.Where(s => s.IdTrabajador == idtrabajador[0].Id && s.ObrId == idobra[0].Id && s.Estado == "Pendiente").ToList();
+            var solicitudesObra = _context.SolicitudObra.Where(s => s.IdTrabajador == idtrabajador[0].Id && s.ObrId == idobra[0].Id && (s.Estado == "Pendiente" || s.Estado == "Aprobada")).ToList();
             if (solicitudesObra.Count > 0)
             {
                 TempData["mensaje"] = "Ya se envió una solicitud de este trabajador para esta obra";
                 return RedirectToAction("SolicitudAgregarObra", "Contratista", new { contratistaid = contratistaid });
             }
+
+
             solicitudObra.IdTrabajador = idtrabajador[0].Id;
             solicitudObra.ObrId = idobra[0].Id;
             solicitudObra.Estado = "Pendiente";
             _context.SolicitudObra.Add(solicitudObra);
             _context.SaveChanges();
-            TempData["mensajeE"] = "Solicitud enviada con éxito";
+
+            //Documentos válidos, solicitud aprobada.
+            //A corregir
+            if (idtrabajador[0].ARLValida == "Valida" && idtrabajador[0].CedulaValida == "Valida" && idtrabajador[0].EPSValida == "Valida" && idtrabajador[0].PensionValida == "Valida" && idtrabajador[0].CertificadoMedicoLaboralValido == "Valida" || idtrabajador[0].CertificadoMedicoLaboralValido == null && idtrabajador[0].SeguridadSocialValida == "Valida" && idtrabajador[0].PlanillaValida == "Valida")
+            {
+                solicitudObra.Estado = "Aprobada";
+                var TXO = _context.TrabajadorXObra.Where(s => s.IdSolicitudObra == solicitudObra.Id).ToList();
+                if (TXO.Count == 0)
+                {
+                    TrabajadorXObra trabajadorXObra = new TrabajadorXObra();
+                    trabajadorXObra.IdSolicitudObra = solicitudObra.Id;
+                    trabajadorXObra.ObrId = solicitudObra.ObrId;
+                    trabajadorXObra.IdTrabajador = solicitudObra.IdTrabajador;
+                    solicitudObra.Estado = "Aprobada";
+                    _context.TrabajadorXObra.Add(trabajadorXObra);
+                }
+                _context.SolicitudObra.Update(solicitudObra);
+                _context.SaveChanges();
+                TempData["mensajeE"] = "Se aprobó la solicitud con éxito al tener los documentos válidos";
+            }
+            else
+            {
+                TempData["mensajeE"] = "Solicitud enviada con éxito";
+            }
             return RedirectToAction("SolicitudAgregarObra", "Contratista", new { contratistaid = contratistaid });
         }
 
         /*-----------------------------------Cambio de contraseña----------------------------------------------*/
         public IActionResult CambioContrasena(int contratistaid, int? cambio)
         {
+            //Vista para cambiar contraseña del contratista
             @ViewData["Contratista"] = contratistaid;
             var nombre = _context.Contratista.Find(contratistaid);
             @ViewBag.Nombre = nombre.Razon_social;

@@ -70,7 +70,6 @@ namespace Contratistas.Controllers
             contratistas.Reverse();
             @ViewBag.Contratistas = contratistas;
             return View(listaSolicitudes);
-            //return View();
         }
 
         public IActionResult FiltroTransaccion(int? adminid, int filtro)
@@ -124,27 +123,15 @@ namespace Contratistas.Controllers
                 contratista.ingresoPortal = true;
                 _context.Contratista.Add(contratista);
                 _context.SaveChanges();
-                /*
-                var user = new IdentityUser()
-                {
-                    UserName = contratista.Usuario,
-                    Email = contratista.Email
-                };
-                
-                var result = await userManager.CreateAsync(user, contratista.Contrasena);
-
-                if (result.Succeeded)
-                {   
-                    await signInManager.SignInAsync(user, false);
-                    _context.Contratista.Add(contratista);
-                    _context.SaveChanges();
-                }*/
             }
-            else if (contratistasnit.Count != 0)
+            /*
+            else if (contratistasnit.Count > 0)
             {
+                
                 TempData["mensaje"] = "Ya hay un contratista registrado con este NIT";
                 return RedirectToAction("SolicitudContratistas", "Admin", new { adminid = adminid });
             }
+            */
             else
             {
                 Contratista contratista = _context.Contratista.Find(contratistas[0].Id);
@@ -185,7 +172,7 @@ namespace Contratistas.Controllers
             @ViewData["Administrador"] = adminid;
             if (idtrabajador != null)
             {
-                //Datos del trabajador
+                //Segunda vista (Datos del trabajador)
                 var trabajador = _context.Trabajador.Find(idtrabajador);
                 Console.WriteLine(trabajador.Nombre);
                 Console.WriteLine(trabajador.SeguridadSocialValida);
@@ -199,6 +186,7 @@ namespace Contratistas.Controllers
                     obras.Add(obra.obrNombre);
                 }
                 var documento = documentos[0];
+                //datos del trabajador
                 @ViewBag.Id = idtrabajador;
                 @ViewBag.Cedula = trabajador.Cedula;
                 @ViewBag.Nombre = trabajador.Nombre;
@@ -252,6 +240,7 @@ namespace Contratistas.Controllers
             }
             else
             {
+                //Primera vista (Tabla de los trabajadores)
                 List<Trabajador> listaTrabajadores;
                 listaTrabajadores = (idcontratista != null) ? _context.Trabajador.Where(s => s.IdContratista == idcontratista).ToList() : _context.Trabajador.ToList();
                 if (filtro != null)
@@ -300,6 +289,7 @@ namespace Contratistas.Controllers
 
         public async  Task<IActionResult> DownloadFile(int adminid, int idtrabajador, string filePath)
         {
+            //Funcion para obtener los archivos de la bd y descargarlos
             filePath = filePath.Remove(0, 1);
             string dpath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             //filePath = filePath + @"\Documentos";
@@ -330,6 +320,7 @@ namespace Contratistas.Controllers
 
         public IActionResult FiltroEstadoIngreso(int adminid, int filtro)
         {
+            //Filtro por Estado de ingreso
             @ViewData["Administrador"] = adminid;
             return RedirectToAction("ValidarDatos", "Admin", new { adminid = adminid , filtro = filtro});
         }
@@ -361,7 +352,7 @@ namespace Contratistas.Controllers
 
         public IActionResult GuardarDatos(int? adminid, int idtrabajador)
         {
-            //Captura los datos cambiados y los guarda en la base de datos
+            //Captura los datos cambiados y los guarda en la base de datos (Botón guardar datos)
             @ViewData["Administrador"] = adminid;
             var listaTrabajadores = _context.Trabajador.ToList();
             string cedula = Request.Form["cedula"].ToString();
@@ -532,8 +523,8 @@ namespace Contratistas.Controllers
 
         public IActionResult AprobarObra(int adminid, int idsolicitud)
         {
+            //Boton para aprobar la solicitud de obra
             SolicitudObra solicitudObra = _context.SolicitudObra.Find(idsolicitud);
-            //
             var TXO = _context.TrabajadorXObra.Where(s => s.IdSolicitudObra == solicitudObra.Id).ToList();
             if (TXO.Count == 0)
             {
@@ -552,6 +543,7 @@ namespace Contratistas.Controllers
 
         public IActionResult RechazarObra(int adminid, int idsolicitud)
         {
+            //Boton para rechazar la solicitud de obra
             SolicitudObra solicitudObra = _context.SolicitudObra.Find(idsolicitud);
             solicitudObra.Estado = "Rechazada";
             var trabajadorXObra = _context.TrabajadorXObra.Where(s => s.IdSolicitudObra == solicitudObra.Id).ToList();
@@ -567,6 +559,7 @@ namespace Contratistas.Controllers
 
         public IActionResult BuscarTrabajadorObra(int adminid)
         {
+            //Boton para buscar al trabajador
             string cedula = Request.Form["ced"].ToString();
             string nombre = Request.Form["nombre"].ToString();
             var trabajadorn = _context.Trabajador.Where(s => s.Cedula == cedula).ToList();
@@ -595,6 +588,7 @@ namespace Contratistas.Controllers
 
         public IActionResult FiltrarEstadoSolicitud(int adminid, int filtro)
         {
+            //Filtrar por estado de solicitud
             @ViewData["Administrador"] = adminid;
             return RedirectToAction("SolicitudObraTrabajador", "Admin", new { adminid = adminid, filtro = filtro });
         }
